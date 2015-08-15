@@ -1,0 +1,102 @@
+/*
+* @Author: Lim Mingjie, Kenneth
+* @Date:   2015-08-07 12:06:14
+* @Last Modified by:   Lim Mingjie, Kenneth
+* @Last Modified time: 2015-08-13 12:53:28
+*/
+
+body {
+  display: flex;
+  flex-direction: row;
+
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  justify-content: center;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+
+  width: inherit;
+  margin: 0 .5rem;
+
+  justify-content: space-around;
+  align-items: center;
+}
+
+figure {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+  padding: 0;
+
+  justify-content: center;
+}
+
+select {
+  width: 100%;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+
+  justify-content: center;
+  align-items: center;
+  flex-grow: 3;
+}
+
+figcaption {
+  margin-bottom: 1rem;
+}
+
+.operator {
+  margin: 0 2rem;
+}
+
+.plot {
+  width: inherit;
+  height: 30vh;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.lCone, .lConeResult {
+  stroke: #f00;
+}
+
+.mCone, .mConeResult {
+  stroke: #0f0;
+}
+
+.sCone, .sConeResult {
+  stroke: #00f;
+}
+
+.ri {
+  stroke: #444;
+}
+
+text {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  pointer-events: none;
+}
+
+.line {
+  fill: none;
+  stroke-width: 1.5px;
+}

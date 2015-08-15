@@ -1,0 +1,380 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"xAxis",
+				"xAxis"
+			],
+			[
+				"current",
+				"currentEditorSession"
+			],
+			[
+				"text",
+				"text-decoration"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 375.0,
+		"last_filter": "package",
+		"selected_items":
+		[
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"markdown",
+				"Set Syntax: Markdown Extended"
+			],
+			[
+				"comb",
+				"Run CSScomb"
+			],
+			[
+				"json",
+				"Set Syntax: JSON (Babel)"
+			],
+			[
+				"babel",
+				"Babel Transform"
+			],
+			[
+				"beau",
+				"SublimeCodeIntel: Enable Live Autocompletion for Current Language"
+			],
+			[
+				"terminal",
+				"Open in terminal"
+			],
+			[
+				"browser",
+				"File: Open In Browser - Production Server"
+			],
+			[
+				"package install",
+				"Package Control: Install Package"
+			],
+			[
+				"syntax html",
+				"Set Syntax: HTML"
+			],
+			[
+				"html",
+				"Set Syntax: HTML"
+			],
+			[
+				"javascript",
+				"Set Syntax: JavaScript (Babel)"
+			]
+		],
+		"width": 579.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Volumes/Kenneth/Devwork/metamerism-demo",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/css",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js"
+	],
+	"file_history":
+	[
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js/LinePlot.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/index.html",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/css/styles.css",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js/humanEyeResponse.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js/lightPowerDist.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js/result.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/raw/2638.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/raw/2637.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/raw/2639.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/raw/2640.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/cf.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/processSPD.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/raw/2652.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/spd.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/raw/2627.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/raw/2629.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/raw/2644.json",
+		"/Volumes/Kenneth/Coursework/2015 FA/CS 3300 Challenge Questions.md",
+		"/Volumes/Kenneth/Coursework/2015 SP/CS 3300/Homework/Homework 7 Submissions/CS 3300 Homework 7 Answer Key.html",
+		"/Volumes/Kenneth/Coursework/2015 FA/CS 3300 Challenge Questions",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/spdPlot.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/conePlot.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js/spdPlot.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js/conePlot.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js/metamerPlot.js",
+		"/Users/Astrianna/Downloads/linss2_10e_1.csv",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/coneFundamentals.json",
+		"/Users/Astrianna/Library/Application Support/Sublime Text 3/Packages/HTML-CSS-JS Prettify/.jsbeautifyrc",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js/Line.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/processCF.js",
+		"/Users/Astrianna/Downloads/lin2012xyz2e_1_7sf.csv",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/spd/final.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/spd/2655.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/spd/2656.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/src/js/app.js",
+		"/Users/Astrianna/.zshrc",
+		"/Users/Astrianna/.bashrc",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/data/spd/2641.json",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/batchDownloadSPD.js",
+		"/Users/Astrianna/Downloads/lin2012xyz2e_fine_7sf.csv",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/.flowconfig",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/gulpfile.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/js/app.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/dist/js/merge.js",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/workspace.sublime-workspace",
+		"/Users/Astrianna/Downloads/linss2_10e_fine_8dp.csv",
+		"/Users/Astrianna/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Volumes/Kenneth/Coursework/2015 SP/CS 4999/VR Class.md",
+		"/Users/Astrianna/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/Users/Astrianna/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Volumes/Kenneth/Devwork/metamerism-demo/.eslintrc",
+		"/Users/Astrianna/Library/Application Support/Sublime Text 3/Packages/User/CSScomb.sublime-settings",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/PostAuthorEditor.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/PostAuthor.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/PostAuthorTitle.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/typography.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/views/PostAuthorDate.jsx",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/PostAuthorDate.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/PostDisplaySingle.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/main.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/views/PostAuthorTitle.jsx",
+		"/Volumes/Kenneth/Devwork/pulsar-core/server/startup/bootstrap.es6.js",
+		"/Volumes/Kenneth/Devwork/pulsar-core/methods/methods-posts.es6.js",
+		"/Volumes/Kenneth/Devwork/pulsar-core/collections/collections-posts.es6.js",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/views/PostAuthorEditor.jsx",
+		"/Volumes/Kenneth/Devwork/pulsar-core/server/browser-policy.es6.js",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/views/PostList.jsx",
+		"/Volumes/Kenneth/Devwork/pulsar-core/collections/collections-global.es6.js",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/PostList.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/PostListEntry.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/views/PostListEntry.jsx",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/views/PostDisplaySingle.jsx",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/views/PostAuthor.jsx",
+		"/Volumes/Kenneth/Devwork/pulsar/server/startup/accounts.js",
+		"/Volumes/Kenneth/Devwork/pulsar/server/startup/serviceConfig.js",
+		"/Volumes/Kenneth/Devwork/pulsar-core/packages/terracotta-warrior/.npm/package/node_modules/terracotta-warrior/README.md",
+		"/Volumes/Kenneth/Devwork/pulsar-core/packages/terracotta-warrior/.npm/package/README",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/fonts.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/routes/routes-posts.jsx",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/lib/ace/theme-solarized_light.js",
+		"/Volumes/Kenneth/Devwork/pulsar-core/babel.json",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/global.html",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/normalize.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/GlobalHeader.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/scale.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/views/GlobalHeader.jsx",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/styles/colors.scss",
+		"/Volumes/Kenneth/Devwork/pulsar-core/client/views/PostDisplayAll.jsx",
+		"/Volumes/Kenneth/Devwork/csscomb.json",
+		"/Users/Astrianna/Library/Application Support/Sublime Text 3/Packages/CSScomb/CSScomb.sublime-settings",
+		"/Volumes/Kenneth/Devwork/pulsar-core/scss.json"
+	],
+	"find":
+	{
+		"height": 41.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"data",
+			"l",
+			"\\n",
+			"bar chart",
+			"reference",
+			"caption",
+			"SPD",
+			"spd",
+			"SPD",
+			"CONE_PLOT_PARAMS",
+			"xAxis",
+			": \"(.+)\"",
+			"50",
+			"Cone",
+			"isDrawn",
+			": \"(.+)\"",
+			": \".+\"",
+			"+h",
+			"\"",
+			"label",
+			"active",
+			"border",
+			"postsReady",
+			"maxFieldLength",
+			"fieldId",
+			"posts",
+			"postsReady",
+			"fieldLength",
+			"\\n",
+			"unSet",
+			"defer",
+			"activeButtonClass",
+			"fieldId",
+			"background-color",
+			"editor",
+			"div",
+			"Focus",
+			"87",
+			"$color",
+			"90",
+			", ",
+			"em",
+			"87",
+			"color",
+			"FreightTextPro"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\\r\\n",
+			": $1",
+			": .+",
+			"'"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"folders":
+	[
+		{
+			"path": "/Volumes/Kenneth/Devwork/metamerism-demo"
+		}
+	],
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 31.0
+	},
+	"input":
+	{
+		"height": 41.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "",
+	"replace":
+	{
+		"height": 74.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 194.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
