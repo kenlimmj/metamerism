@@ -32,6 +32,17 @@ var Line = function Line() {
 
     return lineGenerator(data);
   };
+
+  this.mouseMove = function (scope, _this) {
+    var xPos = d3.mouse(_this)[0];
+
+    var xVal = scope.xScale.invert(xPos);
+    var yVal = _.find(data, function (item) {
+      return params.x(item) === d3.round(xVal, 0);
+    });
+
+    scope.lines[params.id].marker.attr('transform', 'translate(' + xPos + ',' + scope.yScale(params.y(yVal)) + ')');
+  };
 };
 'use strict';
 
@@ -80,6 +91,8 @@ var LinePlot = (function () {
       this.params = params;
     }
 
+    this.lines = {};
+
     this.xLabel = this.params.xAxisLabel;
     this.yLabel = this.params.yAxisLabel;
 
@@ -112,33 +125,60 @@ var LinePlot = (function () {
       if (!this.isInit) {
         this.plot = d3.select(this.domElem).append('svg').attr('width', this.elemWidth).attr('height', this.elemHeight).append('g').attr('transform', 'translate(' + this.margin.left + ', ' + this.margin.top + ')');
 
-        this.plot.append('g').classed(this.xAxisClass, true).classed('axis', true).attr('transform', 'translate(0, ' + this.figHeight + ')').call(this.xAxis).append('text').attr('transform', 'translate(' + this.figWidth + ', -5)').attr('style', 'text-anchor: end').text(this.xLabel);
+        this.xAxisGroup = this.plot.append('g').classed(this.xAxisClass, true).classed('axis', true).attr('transform', 'translate(0, ' + this.figHeight + ')').call(this.xAxis).append('text').attr('transform', 'translate(' + this.figWidth + ', -5)').attr('style', 'text-anchor: end').text(this.xLabel);
 
-        this.plot.append('g').classed(this.yAxisClass, true).classed('axis', true).call(this.yAxis).append('text').attr('transform', 'translate(15, 0) rotate(-90)').attr('style', 'text-anchor: end').text(this.yLabel);
+        this.yAxisGroup = this.plot.append('g').classed(this.yAxisClass, true).classed('axis', true).call(this.yAxis).append('text').attr('transform', 'translate(15, 0) rotate(-90)').attr('style', 'text-anchor: end').text(this.yLabel);
+
+        this.overlay = this.plot.datum(this).append('rect').classed('overlay', true).attr('width', this.elemWidth).attr('height', this.elemHeight).on('mouseover', this.mouseOver).on('mouseout', this.mouseOut).on('mousemove', this.mouseMove);
 
         this.isInit = true;
       }
     }
   }, {
+    key: 'mouseOver',
+    value: function mouseOver(scope) {
+      Object.keys(scope.lines).forEach(function (key) {
+        scope.lines[key].marker.style('display', 'inline');
+      });
+    }
+  }, {
+    key: 'mouseOut',
+    value: function mouseOut(scope) {
+      Object.keys(scope.lines).forEach(function (key) {
+        scope.lines[key].marker.style('display', 'none');
+      });
+    }
+  }, {
+    key: 'mouseMove',
+    value: function mouseMove(scope) {
+      var _this = this;
+
+      Object.keys(scope.lines).forEach(function (key) {
+        scope.lines[key].mouseMove(scope, _this);
+      });
+    }
+  }, {
     key: 'draw',
     value: function draw(line) {
-      if (!this.isInit) {
-        this.init();
-      }
+      this.isInit || this.init();
 
-      this.setAxisDomains(line);
+      this.lines[line.id] = line;
 
-      this.plot.append('path').classed(line.id, true).classed('line', true).attr('d', line.func({
+      this.setAxisDomains(line, false);
+
+      this.lines[line.id].lineGroup = this.plot.append('path').classed(line.id, true).classed('line', true).attr('d', line.func({
         x: this.xScale,
         y: this.yScale
       }));
+
+      this.lines[line.id].marker = this.plot.append('circle').attr('r', 4.5).classed(line.id, true).classed('marker', true);
     }
   }, {
     key: 'update',
     value: function update(line) {
       this.setAxisDomains(line);
 
-      this.plot.select('.' + line.id).transition().duration(500).attr('d', line.func({
+      this.plot.select('.' + line.id).transition().duration(this.params.updateDuration).attr('d', line.func({
         x: this.xScale,
         y: this.yScale
       }));
@@ -146,13 +186,13 @@ var LinePlot = (function () {
   }, {
     key: 'destroy',
     value: function destroy(lineId) {
-      if (this.isInit) {
-        return d3.select('#' + lineId).remove();
-      }
+      this.isInit ? d3.select('#' + lineId).remove() : console.error('destroy: Nothing to delete.');
     }
   }, {
     key: 'setAxisDomains',
     value: function setAxisDomains(line) {
+      var enableTransition = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
+
       var xDomain = [];
       var yDomain = [];
 
@@ -191,10 +231,18 @@ var LinePlot = (function () {
       this.xScale.domain(xDomain);
       this.yScale.domain(yDomain);
 
-      d3.select('.' + this.xAxisClass).transition().duration(500).call(this.xAxis);
+      if (enableTransition) {
+        d3.select('.' + this.xAxisClass).transition().duration(this.params.updateDuration).call(this.xAxis);
 
-      d3.select('.' + this.yAxisClass).transition().duration(500).call(this.yAxis);
+        d3.select('.' + this.yAxisClass).transition().duration(this.params.updateDuration).call(this.yAxis);
+      } else {
+        d3.select('.' + this.xAxisClass).call(this.xAxis);
+        d3.select('.' + this.yAxisClass).call(this.yAxis);
+      }
     }
+  }], [{
+    key: 'group',
+    value: function group(arr) {}
   }]);
 
   return LinePlot;
@@ -261,6 +309,7 @@ var LinePlot = (function () {
   var globalData = _.sortBy(spd, function (item) {
     return item.id;
   });
+
   var domElem = document.querySelector('.lightPowerDist');
 
   var params = {
@@ -269,16 +318,16 @@ var LinePlot = (function () {
       min: 390,
       max: 730
     },
-    yAxisLabel: 'Relative Intensity (%)'
+    yAxisLabel: 'Relative Intensity'
   };
 
   var lineParams = {
     id: 'ri',
     x: function x(data) {
-      return data['wavelength'];
+      return data.wavelength;
     },
     y: function y(data) {
-      return data['ri'];
+      return data.ri;
     }
   };
 
@@ -307,6 +356,7 @@ var LinePlot = (function () {
   var globalData = _.sortBy(spd, function (item) {
     return item.id;
   });
+
   var domElem = document.querySelector('.result');
   var data = multiply(cf, globalData[0].data);
 

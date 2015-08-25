@@ -12,22 +12,22 @@ const DEFAULT_PARAMS = {
   xAxisClass: 'x',
   xAxisClamp: {
     min: -Infinity,
-    max: Infinity
+    max: Infinity,
   },
   yAxisLabel: 'y',
   yAxisOrientation: 'left',
   yAxisClass: 'y',
   yAxisClamp: {
     min: -Infinity,
-    max: Infinity
+    max: Infinity,
   },
   updateDuration: 500,
   margin: {
     top: 10,
     right: 0,
     left: 30,
-    bottom: 40
-  }
+    bottom: 40,
+  },
 };
 
 class LinePlot {
@@ -43,6 +43,8 @@ class LinePlot {
       this.params = params;
     }
 
+    this.lines = {};
+
     this.xLabel = this.params.xAxisLabel;
     this.yLabel = this.params.yAxisLabel;
 
@@ -57,8 +59,14 @@ class LinePlot {
     this.figWidth = this.elemWidth - this.margin.left - this.margin.right;
     this.figHeight = this.elemHeight - this.margin.top - this.margin.bottom;
 
-    this.xScale = d3.scale.linear().range([0, this.figWidth]).clamp(true).nice();
-    this.yScale = d3.scale.linear().range([this.figHeight, 0]).clamp(true).nice();
+    this.xScale = d3.scale.linear()
+      .range([0, this.figWidth])
+      .clamp(true)
+      .nice();
+    this.yScale = d3.scale.linear()
+      .range([this.figHeight, 0])
+      .clamp(true)
+      .nice();
 
     this.xAxis = d3.svg
       .axis()
@@ -87,7 +95,7 @@ class LinePlot {
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
       // Draw the x-axis
-      this.plot
+      this.xAxisGroup = this.plot
         .append('g')
         .classed(this.xAxisClass, true)
         .classed('axis', true)
@@ -99,7 +107,7 @@ class LinePlot {
         .text(this.xLabel);
 
       // Draw the y-axis
-      this.plot
+      this.yAxisGroup = this.plot
         .append('g')
         .classed(this.yAxisClass, true)
         .classed('axis', true)
@@ -109,48 +117,85 @@ class LinePlot {
         .attr('style', 'text-anchor: end')
         .text(this.yLabel);
 
+      // Draw the tooltip overlay
+      this.overlay = this.plot
+        .datum(this)
+        .append('rect')
+        .classed('overlay', true)
+        .attr('width', this.elemWidth)
+        .attr('height', this.elemHeight)
+        .on('mouseover', this.mouseOver)
+        .on('mouseout', this.mouseOut)
+        .on('mousemove', this.mouseMove);
+
       this.isInit = true;
     }
   }
 
-  draw(line) {
-    if (!this.isInit) {
-      this.init();
-    }
+  mouseOver(scope) {
+    Object.keys(scope.lines).forEach((key) => {
+      scope.lines[key].marker.style('display', 'inline');
+    });
+  }
 
-    this.setAxisDomains(line);
+  mouseOut(scope) {
+    Object.keys(scope.lines).forEach((key) => {
+      scope.lines[key].marker.style('display', 'none');
+    });
+  }
+
+  mouseMove(scope) {
+    let _this = this;
+
+    Object.keys(scope.lines).forEach((key) => {
+      scope.lines[key].mouseMove(scope, _this);
+    });
+  }
+
+  draw(line) {
+    this.isInit || this.init();
+
+    this.lines[line.id] = line;
+
+    // Update the axes without animation
+    this.setAxisDomains(line, false);
 
     // Draw the line plot
-    this.plot
+    this.lines[line.id].lineGroup = this.plot
       .append('path')
       .classed(line.id, true)
       .classed('line', true)
       .attr('d', line.func({
         x: this.xScale,
-        y: this.yScale
+        y: this.yScale,
       }));
+
+    this.lines[line.id].marker = this.plot
+      .append('circle')
+      .attr('r', 4.5)
+      .classed(line.id, true)
+      .classed('marker', true);
   }
 
   update(line) {
+    // Update the axes
     this.setAxisDomains(line);
 
     this.plot
       .select(`.${line.id}`)
       .transition()
-      .duration(500)
+      .duration(this.params.updateDuration)
       .attr('d', line.func({
         x: this.xScale,
-        y: this.yScale
+        y: this.yScale,
       }));
   }
 
   destroy(lineId) {
-    if (this.isInit) {
-      return d3.select(`#${lineId}`).remove();
-    }
+    this.isInit ? d3.select(`#${lineId}`).remove() : console.error('destroy: Nothing to delete.');
   }
 
-  setAxisDomains(line) {
+  setAxisDomains(line, enableTransition=true) {
     let xDomain = [];
     let yDomain = [];
 
@@ -190,14 +235,23 @@ class LinePlot {
     this.xScale.domain(xDomain);
     this.yScale.domain(yDomain);
 
-    d3.select(`.${this.xAxisClass}`)
-      .transition()
-      .duration(500)
-      .call(this.xAxis);
+    if (enableTransition) {
+      d3.select(`.${this.xAxisClass}`)
+        .transition()
+        .duration(this.params.updateDuration)
+        .call(this.xAxis);
 
-    d3.select(`.${this.yAxisClass}`)
-      .transition()
-      .duration(500)
-      .call(this.yAxis);
+      d3.select(`.${this.yAxisClass}`)
+        .transition()
+        .duration(this.params.updateDuration)
+        .call(this.yAxis);
+    } else {
+      d3.select(`.${this.xAxisClass}`).call(this.xAxis);
+      d3.select(`.${this.yAxisClass}`).call(this.yAxis);
+    }
+  }
+
+  static group(arr) {
+    // TODO
   }
 }

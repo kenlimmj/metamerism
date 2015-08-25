@@ -1,44 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <title>The Science of Metamerism</title>
-  <link rel="stylesheet" href="dist/css/styles.css">
-</head>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-<body>
-  <main>
-    <section>
-      <figcaption>Illuminant Spectral Power Distribution</figcaption>
-      <figure class="lightPowerDist plot">
-      </figure>
-      <select class="lpd--data-selector">
-      </select>
-    </section>
-    <span class="operator">x</span>
-    <!-- <section>
-      <figcaption>Material Spectral Power Distribution</figcaption>
-      <figure class="materialPowerDist plot"></figure>
-      <select class="mpd--data-selector">
-      </select>
-    </section>
-    <span class="operator">+</span> -->
-    <section>
-      <figcaption>Human Eye Response</figcaption>
-      <figure class="humanEyeResponse plot"></figure>
-    </section>
-    <span class="operator">=</span>
-    <section>
-      <figcaption>Result</figcaption>
-      <figure class="result plot"></figure>
-    </section>
-  </main>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
-<script src="dist/data/cf.json"></script>
-<script src="dist/data/spd.json"></script>
-<script src="dist/js/app.js"></script>
+    <title>The Science of Metamerism</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
+    <link rel="stylesheet" href="dist/css/styles.css">
+  </head>
+
+  <body>
+    <main>
+      <section class="graph">
+        <select class="lpd--data-selector">
+        </select>
+        <figure class="lightPowerDist plot">
+          <figcaption>Illuminant Spectral Power Distribution</figcaption>
+        </figure>
+        <!-- <figcaption>Material Spectral Power Distribution</figcaption>
+        <figure class="materialPowerDist plot"></figure>
+        <select class="mpd--data-selector">
+        </select> -->
+        <figure class="humanEyeResponse plot">
+          <figcaption>Human Eye Response</figcaption></figure>
+        <figure class="result plot">
+          <figcaption>Result</figcaption>
+        </figure>
+      </section>
+    </main>
+  </body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js"></script>
+
+  <script src="dist/data/cf.json"></script>
+  <script src="dist/data/spd.json"></script>
+  <script src="dist/js/app.js"></script>
 
 </html>

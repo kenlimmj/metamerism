@@ -6,27 +6,30 @@
  */
 
 (function() {
-  const globalData = _.sortBy(spd, (item) => { return item.id; });
+  const globalData = _.sortBy(spd, (item) => {
+    return item.id;
+  });
+
   const domElem = document.querySelector('.lightPowerDist');
 
   const params = {
     xAxisLabel: 'Wavelength (nm)',
     xAxisClamp: {
       min: 390,
-      max: 730
+      max: 730,
     },
-    yAxisLabel: 'Relative Intensity (%)'
-  }
+    yAxisLabel: 'Relative Intensity',
+  };
 
   const lineParams = {
     id: 'ri',
     x(data) {
-      return data['wavelength'];
+      return data.wavelength;
     },
     y(data) {
-      return data['ri'];
-    }
-  }
+      return data.ri;
+    },
+  };
 
   let plot = new LinePlot(domElem, params);
   let line = new Line(globalData[0].data, lineParams);

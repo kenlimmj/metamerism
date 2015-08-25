@@ -9,6 +9,7 @@
   const globalData = _.sortBy(spd, (item) => {
     return item.id;
   });
+  
   const domElem = document.querySelector('.result');
   const data = multiply(cf, globalData[0].data);
 
@@ -16,13 +17,13 @@
     xAxisLabel: 'Wavelength (nm)',
     xAxisClamp: {
       min: 390,
-      max: 730
+      max: 730,
     },
     yAxisClamp: {
       min: 0,
-      max: 1
+      max: 1,
     },
-    yAxisLabel: 'Tristimulus Value'
+    yAxisLabel: 'Tristimulus Value',
   }
 
   const lineParams = {

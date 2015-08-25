@@ -1,19 +1,12 @@
-/*
- * @Author: Lim Mingjie, Kenneth
- * @Date:   2015-08-08 11:46:29
- * @Last Modified by:   Lim Mingjie, Kenneth
- * @Last Modified time: 2015-08-09 22:22:54
- */
-
 const DEFAULT_PARAMS = {
   id: _.uniqueId('line_'),
   x(data) {
     return data.x;
   },
   y(data) {
-    return data.y
-  }
-}
+    return data.y;
+  },
+};
 
 class Line {
   constructor(data = [], params = DEFAULT_PARAMS) {
@@ -33,6 +26,18 @@ class Line {
         });
 
       return lineGenerator(data);
+    };
+
+    this.mouseMove = (scope, _this) => {
+      let xPos = d3.mouse(_this)[0];
+
+      let xVal = scope.xScale.invert(xPos);
+      let yVal = _.find(data, (item) => {
+        return params.x(item) === d3.round(xVal, 0);
+      });
+
+      scope.lines[params.id].marker
+        .attr('transform', `translate(${xPos},${scope.yScale(params.y(yVal))})`);
     };
   }
 }
