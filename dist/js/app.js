@@ -1,5 +1,7 @@
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var DEFAULT_PARAMS = {
@@ -12,38 +14,67 @@ var DEFAULT_PARAMS = {
   }
 };
 
-var Line = function Line() {
-  var data = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
-  var params = arguments.length <= 1 || arguments[1] === undefined ? DEFAULT_PARAMS : arguments[1];
+var Line = (function () {
+  function Line() {
+    var data = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+    var params = arguments.length <= 1 || arguments[1] === undefined ? DEFAULT_PARAMS : arguments[1];
 
-  _classCallCheck(this, Line);
+    _classCallCheck(this, Line);
 
-  this.data = data;
-  this.id = params.id;
-  this.x = params.x;
-  this.y = params.y;
+    this.data = data;
+    this.params = params;
+  }
 
-  this.func = function (scale) {
-    var lineGenerator = d3.svg.line().x(function (d) {
-      return scale.x(params.x(d));
-    }).y(function (d) {
-      return scale.y(params.y(d));
-    });
+  _createClass(Line, [{
+    key: 'func',
+    value: function func(scale) {
+      var _this = this;
 
-    return lineGenerator(data);
-  };
+      var lineGenerator = d3.svg.line().x(function (d) {
+        return scale.x(_this.params.x(d));
+      }).y(function (d) {
+        return scale.y(_this.params.y(d));
+      });
 
-  this.mouseMove = function (scope, _this) {
-    var xPos = d3.mouse(_this)[0];
+      return lineGenerator(this.data);
+    }
+  }, {
+    key: 'mouseMove',
+    value: function mouseMove(_ref, overlay) {
+      var _this2 = this;
 
-    var xVal = scope.xScale.invert(xPos);
-    var yVal = _.find(data, function (item) {
-      return params.x(item) === d3.round(xVal, 0);
-    });
+      var xScale = _ref.xScale;
+      var yScale = _ref.yScale;
+      var lines = _ref.lines;
 
-    scope.lines[params.id].marker.attr('transform', 'translate(' + xPos + ',' + scope.yScale(params.y(yVal)) + ')');
-  };
-};
+      var xPos = d3.mouse(overlay)[0];
+
+      var xVal = xScale.invert(xPos);
+      var yVal = _.find(this.data, function (item) {
+        return _this2.params.x(item) === d3.round(xVal, 0);
+      });
+
+      lines[this.params.id].marker.attr('transform', 'translate(' + xPos + ',' + yScale(this.params.y(yVal)) + ')');
+    }
+  }, {
+    key: 'id',
+    get: function get() {
+      return this.params.id;
+    }
+  }, {
+    key: 'x',
+    get: function get() {
+      return this.params.x;
+    }
+  }, {
+    key: 'y',
+    get: function get() {
+      return this.params.y;
+    }
+  }]);
+
+  return Line;
+})();
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -92,6 +123,7 @@ var LinePlot = (function () {
     }
 
     this.lines = {};
+    this.group = [];
 
     this.xLabel = this.params.xAxisLabel;
     this.yLabel = this.params.yAxisLabel;
@@ -131,21 +163,43 @@ var LinePlot = (function () {
 
         this.overlay = this.plot.datum(this).append('rect').classed('overlay', true).attr('width', this.elemWidth).attr('height', this.elemHeight).on('mouseover', this.mouseOver).on('mouseout', this.mouseOut).on('mousemove', this.mouseMove);
 
+        this.markerLine = this.plot.append('line').attr('y1', 0).attr('y2', this.elemHeight - this.margin.bottom).classed('marker marker-bar', true);
+
         this.isInit = true;
       }
     }
   }, {
     key: 'mouseOver',
     value: function mouseOver(scope) {
+      scope.markerLine.style('display', 'inline');
+
       Object.keys(scope.lines).forEach(function (key) {
         scope.lines[key].marker.style('display', 'inline');
+      });
+
+      scope.group.forEach(function (plot) {
+        plot.markerLine.style('display', 'inline');
+
+        Object.keys(plot.lines).forEach(function (key) {
+          plot.lines[key].marker.style('display', 'inline');
+        });
       });
     }
   }, {
     key: 'mouseOut',
     value: function mouseOut(scope) {
+      scope.markerLine.style('display', 'none');
+
       Object.keys(scope.lines).forEach(function (key) {
         scope.lines[key].marker.style('display', 'none');
+      });
+
+      scope.group.forEach(function (plot) {
+        plot.markerLine.style('display', 'none');
+
+        Object.keys(plot.lines).forEach(function (key) {
+          plot.lines[key].marker.style('display', 'none');
+        });
       });
     }
   }, {
@@ -153,8 +207,18 @@ var LinePlot = (function () {
     value: function mouseMove(scope) {
       var _this = this;
 
+      scope.markerLine.attr('x1', d3.mouse(_this)[0]).attr('x2', d3.mouse(_this)[0]);
+
       Object.keys(scope.lines).forEach(function (key) {
         scope.lines[key].mouseMove(scope, _this);
+      });
+
+      scope.group.forEach(function (plot) {
+        plot.markerLine.attr('x1', d3.mouse(_this)[0]).attr('x2', d3.mouse(_this)[0]);
+
+        Object.keys(plot.lines).forEach(function (key) {
+          plot.lines[key].mouseMove(plot, _this);
+        });
       });
     }
   }, {
@@ -242,14 +306,22 @@ var LinePlot = (function () {
     }
   }], [{
     key: 'group',
-    value: function group(arr) {}
+    value: function group(arr) {
+      arr.forEach(function (plot) {
+        arr.forEach(function (elem) {
+          if (elem.id !== plot.id) {
+            plot.group.push(elem);
+          }
+        });
+      });
+    }
   }]);
 
   return LinePlot;
 })();
 'use strict';
 
-(function () {
+;(function () {
   var domElem = document.querySelector('.humanEyeResponse');
   var data = cf;
   var params = {
@@ -264,27 +336,33 @@ var LinePlot = (function () {
   var lineParams = {
     l: {
       id: 'lCone',
+
       x: function x(data) {
-        return data['wavelength'];
+        return data.wavelength;
       },
+
       y: function y(data) {
         return data['l-cone'];
       }
     },
     m: {
       id: 'mCone',
+
       x: function x(data) {
-        return data['wavelength'];
+        return data.wavelength;
       },
+
       y: function y(data) {
         return data['m-cone'];
       }
     },
     s: {
       id: 'sCone',
+
       x: function x(data) {
-        return data['wavelength'];
+        return data.wavelength;
       },
+
       y: function y(data) {
         return data['s-cone'];
       }
@@ -302,10 +380,12 @@ var LinePlot = (function () {
   Object.keys(lines).forEach(function (entry) {
     plot.draw(lines[entry]);
   });
+
+  window.her = plot;
 })();
 'use strict';
 
-(function () {
+;(function () {
   var globalData = _.sortBy(spd, function (item) {
     return item.id;
   });
@@ -323,9 +403,11 @@ var LinePlot = (function () {
 
   var lineParams = {
     id: 'ri',
+
     x: function x(data) {
       return data.wavelength;
     },
+
     y: function y(data) {
       return data.ri;
     }
@@ -349,10 +431,12 @@ var LinePlot = (function () {
     line = new Line(globalData[e.target.value].data, lineParams);
     plot.update(line);
   });
+
+  window.lpd = plot;
 })();
 'use strict';
 
-(function () {
+;(function () {
   var globalData = _.sortBy(spd, function (item) {
     return item.id;
   });
@@ -376,27 +460,33 @@ var LinePlot = (function () {
   var lineParams = {
     l: {
       id: 'lConeResult',
+
       x: function x(data) {
-        return data['wavelength'];
+        return data.wavelength;
       },
+
       y: function y(data) {
         return data['l-cone'];
       }
     },
     m: {
       id: 'mConeResult',
+
       x: function x(data) {
-        return data['wavelength'];
+        return data.wavelength;
       },
+
       y: function y(data) {
         return data['m-cone'];
       }
     },
     s: {
       id: 'sConeResult',
+
       x: function x(data) {
-        return data['wavelength'];
+        return data.wavelength;
       },
+
       y: function y(data) {
         return data['s-cone'];
       }
@@ -441,5 +531,7 @@ var LinePlot = (function () {
       plot.update(updatedLines[entry]);
     });
   });
+
+  window.result = plot;
 })();
 //# sourceMappingURL=app.js.map

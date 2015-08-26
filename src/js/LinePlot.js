@@ -44,6 +44,7 @@ class LinePlot {
     }
 
     this.lines = {};
+    this.group = [];
 
     this.xLabel = this.params.xAxisLabel;
     this.yLabel = this.params.yAxisLabel;
@@ -128,27 +129,69 @@ class LinePlot {
         .on('mouseout', this.mouseOut)
         .on('mousemove', this.mouseMove);
 
+      this.markerLine = this.plot
+        .append('line')
+        .attr('y1', 0)
+        .attr('y2', this.elemHeight - this.margin.bottom)
+        .classed('marker marker-bar', true);
+
       this.isInit = true;
     }
   }
 
   mouseOver(scope) {
+    scope.markerLine.style('display', 'inline');
+
     Object.keys(scope.lines).forEach((key) => {
       scope.lines[key].marker.style('display', 'inline');
+    });
+
+    scope.group.forEach((plot) => {
+      plot.markerLine.style('display', 'inline');
+
+      Object.keys(plot.lines).forEach((key) => {
+        plot.lines[key].marker.style('display', 'inline');
+      });
     });
   }
 
   mouseOut(scope) {
+    scope.markerLine.style('display', 'none');
+
     Object.keys(scope.lines).forEach((key) => {
       scope.lines[key].marker.style('display', 'none');
+    });
+
+    scope.group.forEach((plot) => {
+      plot.markerLine.style('display', 'none');
+
+      Object.keys(plot.lines).forEach((key) => {
+        plot.lines[key].marker.style('display', 'none');
+      });
     });
   }
 
   mouseMove(scope) {
+    // SHAME: No better way thus far to push the event handler
+    // scope into the forEach closure other than backing it up here
     let _this = this;
+
+    scope.markerLine
+      .attr('x1', d3.mouse(_this)[0])
+      .attr('x2', d3.mouse(_this)[0]);
 
     Object.keys(scope.lines).forEach((key) => {
       scope.lines[key].mouseMove(scope, _this);
+    });
+
+    scope.group.forEach((plot) => {
+      plot.markerLine
+        .attr('x1', d3.mouse(_this)[0])
+        .attr('x2', d3.mouse(_this)[0]);
+
+      Object.keys(plot.lines).forEach((key) => {
+        plot.lines[key].mouseMove(plot, _this);
+      });
     });
   }
 
@@ -252,6 +295,12 @@ class LinePlot {
   }
 
   static group(arr) {
-    // TODO
+    arr.forEach((plot) => {
+      arr.forEach((elem) => {
+        if (elem.id !== plot.id) {
+          plot.group.push(elem);
+        }
+      });
+    });
   }
 }

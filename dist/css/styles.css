@@ -96,7 +96,12 @@ figcaption {
 }
 
 .marker {
+  display: none;
+}
+
+.marker-bar {
   stroke: #444;
+  stroke-dasharray: 5, 5;
 }
 
 .overlay {

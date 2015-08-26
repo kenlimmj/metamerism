@@ -1,11 +1,4 @@
-/*
- * @Author: Lim Mingjie, Kenneth
- * @Date:   2015-08-10 19:18:48
- * @Last Modified by:   Lim Mingjie, Kenneth
- * @Last Modified time: 2015-08-12 22:19:40
- */
-
-(function() {
+;(() => {
   const globalData = _.sortBy(spd, (item) => {
     return item.id;
   });
@@ -23,9 +16,11 @@
 
   const lineParams = {
     id: 'ri',
+
     x(data) {
       return data.wavelength;
     },
+
     y(data) {
       return data.ri;
     },
@@ -49,4 +44,6 @@
     line = new Line(globalData[e.target.value].data, lineParams);
     plot.update(line);
   });
+
+  window.lpd = plot;
 })();
