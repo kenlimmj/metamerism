@@ -221,6 +221,8 @@ class LinePlot {
   }
 
   update(line) {
+    this.lines[line.id] = line;
+
     // Update the axes
     this.setAxisDomains(line);
 
@@ -232,6 +234,12 @@ class LinePlot {
         x: this.xScale,
         y: this.yScale,
       }));
+
+    this.lines[line.id].marker = this.plot
+      .append('circle')
+      .attr('r', 4.5)
+      .classed(line.id, true)
+      .classed('marker', true);
   }
 
   destroy(lineId) {

@@ -240,12 +240,16 @@ var LinePlot = (function () {
   }, {
     key: 'update',
     value: function update(line) {
+      this.lines[line.id] = line;
+
       this.setAxisDomains(line);
 
       this.plot.select('.' + line.id).transition().duration(this.params.updateDuration).attr('d', line.func({
         x: this.xScale,
         y: this.yScale
       }));
+
+      this.lines[line.id].marker = this.plot.append('circle').attr('r', 4.5).classed(line.id, true).classed('marker', true);
     }
   }, {
     key: 'destroy',
