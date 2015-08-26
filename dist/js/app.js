@@ -161,7 +161,7 @@ var LinePlot = (function () {
 
         this.yAxisGroup = this.plot.append('g').classed(this.yAxisClass, true).classed('axis', true).call(this.yAxis).append('text').attr('transform', 'translate(15, 0) rotate(-90)').attr('style', 'text-anchor: end').text(this.yLabel);
 
-        this.overlay = this.plot.datum(this).append('rect').classed('overlay', true).attr('width', this.elemWidth).attr('height', this.elemHeight).on('mouseover', this.mouseOver).on('mouseout', this.mouseOut).on('mousemove', this.mouseMove);
+        this.overlay = this.plot.datum(this).append('rect').classed('overlay', true).attr('width', this.elemWidth).attr('height', this.elemHeight).on('mouseover', this.mouseOver).on('mouseout', this.mouseOut).on('mousemove', _.throttle(this.mouseMove, 10));
 
         this.markerLine = this.plot.append('line').attr('y1', 0).attr('y2', this.elemHeight - this.margin.bottom - this.margin.top).classed('marker marker-bar', true);
 

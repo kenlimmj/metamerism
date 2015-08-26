@@ -127,7 +127,7 @@ class LinePlot {
         .attr('height', this.elemHeight)
         .on('mouseover', this.mouseOver)
         .on('mouseout', this.mouseOut)
-        .on('mousemove', this.mouseMove);
+        .on('mousemove', _.throttle(this.mouseMove, 10));
 
       // Draw the vertical marker line
       this.markerLine = this.plot
