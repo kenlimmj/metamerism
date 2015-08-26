@@ -163,7 +163,7 @@ var LinePlot = (function () {
 
         this.overlay = this.plot.datum(this).append('rect').classed('overlay', true).attr('width', this.elemWidth).attr('height', this.elemHeight).on('mouseover', this.mouseOver).on('mouseout', this.mouseOut).on('mousemove', this.mouseMove);
 
-        this.markerLine = this.plot.append('line').attr('y1', 0).attr('y2', this.elemHeight - this.margin.bottom).classed('marker marker-bar', true);
+        this.markerLine = this.plot.append('line').attr('y1', 0).attr('y2', this.elemHeight - this.margin.bottom - this.margin.top).classed('marker marker-bar', true);
 
         this.isInit = true;
       }

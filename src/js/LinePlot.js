@@ -129,10 +129,11 @@ class LinePlot {
         .on('mouseout', this.mouseOut)
         .on('mousemove', this.mouseMove);
 
+      // Draw the vertical marker line
       this.markerLine = this.plot
         .append('line')
         .attr('y1', 0)
-        .attr('y2', this.elemHeight - this.margin.bottom)
+        .attr('y2', this.elemHeight - this.margin.bottom - this.margin.top)
         .classed('marker marker-bar', true);
 
       this.isInit = true;
