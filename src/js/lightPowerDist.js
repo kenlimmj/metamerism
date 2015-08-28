@@ -1,49 +1,76 @@
-;(() => {
-  const globalData = _.sortBy(spd, (item) => {
-    return item.id;
-  });
+import * as _ from 'lodash';
+import * as data from 'json!../data/lpd.json';
+import Line from './Line';
+import LinePlot from './LinePlot';
 
-  const domElem = document.querySelector('.lightPowerDist');
+const DATA = _.sortBy(data.default, (item) => {
+  return item.id;
+});
 
-  const params = {
-    xAxisLabel: 'Wavelength (nm)',
-    xAxisClamp: {
-      min: 390,
-      max: 730,
-    },
-    yAxisLabel: 'Relative Intensity',
-  };
+const PLOT_PARAMS = {
+  xAxisLabel: 'Wavelength (nm)',
+  xAxisClamp: {
+    min: 390,
+    max: 730,
+  },
+  yAxisLabel: 'Relative Intensity',
+  yAxisClamp: {
+    min: 0,
+    max: 1,
+  },
+};
 
-  const lineParams = {
-    id: 'ri',
+const LINE_PARAMS = {
+  id: 'ri',
 
-    x(data) {
-      return data.wavelength;
-    },
+  x(data) {
+    return data.wavelength;
+  },
 
-    y(data) {
-      return data.ri;
-    },
-  };
+  y(data) {
+    return data.ri;
+  },
+};
 
-  let plot = new LinePlot(domElem, params);
-  let line = new Line(globalData[0].data, lineParams);
+export default class LightPowerDist {
+  constructor(parentElem = document.body) {
+    this.parentElem = parentElem;
+    this.plotElem = document.createElement('figure');
+    this.selectorElem = document.createElement('select');
 
-  plot.draw(line);
+    // Configure the selector
+    this.selectorElem.classList.add('lightPowerDist', 'selector');
+    this.parentElem.appendChild(this.selectorElem);
 
-  const selectorElem = document.querySelector('.lpd--data-selector');
+    // Initialize a document fragment to cache DOM updates
+    let optCache = document.createDocumentFragment();
 
-  globalData.forEach((item, idx) => {
-    let opt = document.createElement('option');
-    opt.textContent = item.id;
-    opt.value = idx;
-    selectorElem.appendChild(opt);
-  });
+    // Populate the document fragment with selector options
+    DATA.forEach((item, idx) => {
+      let opt = document.createElement('option');
+      opt.textContent = item.id;
+      opt.value = idx;
+      optCache.appendChild(opt);
+    });
 
-  selectorElem.addEventListener('change', (e) => {
-    line = new Line(globalData[e.target.value].data, lineParams);
-    plot.update(line);
-  });
+    // Update the actual selector
+    this.selectorElem.appendChild(optCache);
 
-  window.lpd = plot;
-})();
+    // Bind dropdown selection behavior
+    this.selectorElem.addEventListener('change', (e) => {
+      this.line = new Line(DATA[e.target.value].data, LINE_PARAMS);
+      this.plot.update(this.line);
+    });
+
+    // Inject the plot into the parent DOM element
+    this.plotElem.classList.add('lightPowerDist', 'plot');
+    this.parentElem.appendChild(this.plotElem);
+
+    this.plot = new LinePlot(this.plotElem, PLOT_PARAMS);
+    this.line = new Line(DATA[0].data, LINE_PARAMS);
+
+    this.plot.draw(this.line);
+
+    return this;
+  }
+}

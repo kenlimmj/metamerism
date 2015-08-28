@@ -1,62 +1,78 @@
-;(() => {
-  const domElem = document.querySelector('.humanEyeResponse');
-  const data = cf;
-  const params = {
-    xAxisLabel: 'Wavelength (nm)',
-    xAxisClamp: {
-      min: 390,
-      max: 730,
+import * as data from 'json!../data/her.json';
+import Line from './Line';
+import LinePlot from './LinePlot';
+
+const DATA = data.default;
+const PLOT_PARAMS = {
+  xAxisLabel: 'Wavelength (nm)',
+  xAxisClamp: {
+    min: 390,
+    max: 730,
+  },
+  yAxisLabel: 'Tristimulus Value',
+  yAxisClamp: {
+    min: 0,
+    max: 1,
+  },
+};
+
+const LINE_PARAMS = {
+  l: {
+    id: 'lCone',
+
+    x(data) {
+      return data.wavelength;
     },
-    yAxisLabel: 'Tristimulus Value',
-  };
 
-  const lineParams = {
-    l: {
-      id: 'lCone',
-
-      x(data) {
-        return data.wavelength;
-      },
-
-      y(data) {
-        return data['l-cone'];
-      },
+    y(data) {
+      return data['l-cone'];
     },
-    m: {
-      id: 'mCone',
+  },
+  m: {
+    id: 'mCone',
 
-      x(data) {
-        return data.wavelength;
-      },
-
-      y(data) {
-        return data['m-cone'];
-      },
+    x(data) {
+      return data.wavelength;
     },
-    s: {
-      id: 'sCone',
 
-      x(data) {
-        return data.wavelength;
-      },
-
-      y(data) {
-        return data['s-cone'];
-      },
+    y(data) {
+      return data['m-cone'];
     },
-  };
+  },
+  s: {
+    id: 'sCone',
 
-  let plot = new LinePlot(domElem, params);
+    x(data) {
+      return data.wavelength;
+    },
 
-  let lines = {
-    l: new Line(data, lineParams.l),
-    m: new Line(data, lineParams.m),
-    s: new Line(data, lineParams.s),
-  };
+    y(data) {
+      return data['s-cone'];
+    },
+  },
+};
 
-  Object.keys(lines).forEach((entry) => {
-    plot.draw(lines[entry]);
-  });
+export default class HumanEyeResponse {
+  constructor(parentElem = document.body) {
+    this.parentElem = parentElem;
+    this.plotElem = document.createElement('figure');
 
-  window.her = plot;
-})();
+    // Inject the plot into the parent DOM element
+    this.plotElem.classList.add('humanEyeResponse', 'plot');
+    this.parentElem.appendChild(this.plotElem);
+
+    this.plot = new LinePlot(this.plotElem, PLOT_PARAMS);
+    this.line = [
+      new Line(DATA, LINE_PARAMS.l),
+      new Line(DATA, LINE_PARAMS.m),
+      new Line(DATA, LINE_PARAMS.s),
+    ];
+
+    // Draw all the lines into the plot
+    this.line.map((item) => {
+      this.plot.draw(item);
+    });
+
+    return this;
+  }
+}

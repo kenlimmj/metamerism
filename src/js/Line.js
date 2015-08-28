@@ -8,7 +8,7 @@ const DEFAULT_PARAMS = {
   },
 };
 
-class Line {
+export default class Line {
   constructor(data = [], params = DEFAULT_PARAMS) {
     this.data = data;
     this.params = params;

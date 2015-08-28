@@ -1,9 +1,4 @@
-/*
- * @Author: Lim Mingjie, Kenneth
- * @Date:   2015-08-05 22:11:48
- * @Last Modified by:   Lim Mingjie, Kenneth
- * @Last Modified time: 2015-08-13 11:06:23
- */
+import * as _ from 'lodash';
 
 const DEFAULT_TARGET_ELEM = document.body;
 const DEFAULT_PARAMS = {
@@ -14,6 +9,7 @@ const DEFAULT_PARAMS = {
     min: -Infinity,
     max: Infinity,
   },
+  xAxisTickValues: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
   yAxisLabel: 'y',
   yAxisOrientation: 'left',
   yAxisClass: 'y',
@@ -30,7 +26,7 @@ const DEFAULT_PARAMS = {
   },
 };
 
-class LinePlot {
+export default class LinePlot {
   constructor(domElem = DEFAULT_TARGET_ELEM, params = DEFAULT_PARAMS) {
     this.id = _.uniqueId('plot_');
     this.domElem = domElem;
@@ -77,7 +73,7 @@ class LinePlot {
     this.yAxis = d3.svg
       .axis()
       .scale(this.yScale)
-      .tickValues([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0])
+      .tickValues(this.params.xAxisTickValues)
       .orient(this.params.yAxisOrientation);
 
     this.isInit = false;

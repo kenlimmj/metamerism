@@ -1,0 +1,120 @@
+body {
+  display: flex;
+  flex-direction: row;
+
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  justify-content: center;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+
+  width: inherit;
+  margin: 0 .5rem;
+
+  justify-content: space-around;
+  align-items: center;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+
+  width: calc(100vw/2);
+  height: 100vh;
+
+  justify-content: space-around;
+  align-items: center;
+}
+
+figure {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+  padding: 0;
+
+  justify-content: center;
+}
+
+figcaption {
+  position: absolute;
+
+  width: inherit;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: right;
+  pointer-events: none;
+}
+
+select {
+  width: 100%;
+}
+
+.operator {
+  margin: 0 2rem;
+}
+
+.plot {
+  width: inherit;
+  height: 30vh;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #444;
+  shape-rendering: crispEdges;
+}
+
+.line,
+.marker {
+  fill: none;
+  stroke-width: 1.5px;
+}
+
+.marker {
+  display: none;
+}
+
+.marker-bar {
+  stroke: #888;
+  stroke-dasharray: 5, 5;
+}
+
+.lCone {
+  stroke: #f00;
+}
+
+.mCone {
+  stroke: #0f0;
+}
+
+.sCone {
+  stroke: #00f;
+}
+
+.ri {
+  stroke: #444;
+}
+
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+text {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
