@@ -21,7 +21,7 @@ const PLOT_PARAMS = {
 };
 
 const LINE_PARAMS = {
-  id: 'ri',
+  id: _.uniqueId('ri'),
 
   x(data) {
     return data.wavelength;

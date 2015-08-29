@@ -6,22 +6,53 @@ import './css/styles.css';
 import FastClick from 'fastclick';
 FastClick.attach(document.body);
 
-// Load Graph Generators
-import LightPowerDist from './js/LightPowerDist';
-import HumanEyeResponse from './js/HumanEyeResponse';
-import MetaResponse from './js/MetaResponse';
-
-// Load Plotting Helper
-import LinePlot from './js/LinePlot';
+import GraphGenerator from './js/GraphGenerator';
 
 const MAIN_ELEM = document.querySelector('main');
 
-let graphSetElem = document.createElement('section');
-graphSetElem.classList.add('graph');
-MAIN_ELEM.appendChild(graphSetElem);
+const LEFT_BOUND = document.querySelector('.leftMost');
+const LEFT_BOUND_BUTTON = document.querySelector('.leftMost > .addGraph');
 
-let lpd = new LightPowerDist(graphSetElem);
-let her = new HumanEyeResponse(graphSetElem);
-let meta = new MetaResponse(graphSetElem);
+const RIGHT_BOUND = document.querySelector('.rightMost');
+const RIGHT_BOUND_BUTTON = document.querySelector('.rightMost > .addGraph');
 
-LinePlot.group([lpd.plot, her.plot, meta.plot]);
+let graphList = [];
+graphList.push(new GraphGenerator(MAIN_ELEM, RIGHT_BOUND));
+
+RIGHT_BOUND_BUTTON.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  // Insert the new set of graphs to the left of the right button
+  graphList.push(new GraphGenerator(MAIN_ELEM, RIGHT_BOUND));
+
+  graphList.forEach((item) => {
+    item.lpd.plot.refresh();
+    item.her.plot.refresh();
+    item.meta.plot.refresh();
+  });
+
+  if (graphList.length === 3) {
+    LEFT_BOUND_BUTTON.disabled = true;
+    RIGHT_BOUND_BUTTON.disabled = true;
+  }
+});
+
+LEFT_BOUND_BUTTON.addEventListener('click', (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  // Insert the new set of graphs to the right of the left button
+  graphList.push(new GraphGenerator(MAIN_ELEM, document.querySelectorAll('.graph')[0]));
+
+  graphList.forEach((item) => {
+    item.lpd.plot.refresh();
+    item.her.plot.refresh();
+    item.meta.plot.refresh();
+  });
+
+  if (graphList.length === 3) {
+    LEFT_BOUND_BUTTON.disabled = true;
+    RIGHT_BOUND_BUTTON.disabled = true;
+  }
+});

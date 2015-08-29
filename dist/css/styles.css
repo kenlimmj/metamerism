@@ -21,20 +21,6 @@ main {
   align-items: center;
 }
 
-figure {
-  display: flex;
-  flex-direction: column;
-
-  margin: 0;
-  padding: 0;
-
-  justify-content: center;
-}
-
-select {
-  width: 100%;
-}
-
 section {
   display: flex;
   flex-direction: column;
@@ -46,6 +32,16 @@ section {
   align-items: center;
 }
 
+figure {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+  padding: 0;
+
+  justify-content: center;
+}
+
 figcaption {
   position: absolute;
 
@@ -55,9 +51,12 @@ figcaption {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  user-select: none;
   text-align: right;
   pointer-events: none;
+}
+
+select {
+  width: 100%;
 }
 
 .operator {
@@ -72,27 +71,14 @@ figcaption {
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #444;
   shape-rendering: crispEdges;
 }
 
-.lCone,
-.lConeResult {
-  stroke: #f00;
-}
-
-.mCone,
-.mConeResult {
-  stroke: #0f0;
-}
-
-.sCone,
-.sConeResult {
-  stroke: #00f;
-}
-
-.ri {
-  stroke: #444;
+.line,
+.marker {
+  fill: none;
+  stroke-width: 1.5px;
 }
 
 .marker {
@@ -102,6 +88,22 @@ figcaption {
 .marker-bar {
   stroke: #888;
   stroke-dasharray: 5, 5;
+}
+
+.lCone {
+  stroke: #f00;
+}
+
+.mCone {
+  stroke: #0f0;
+}
+
+.sCone {
+  stroke: #00f;
+}
+
+.ri {
+  stroke: #444;
 }
 
 .overlay {
@@ -115,18 +117,4 @@ text {
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
-}
-
-.line,
-.marker {
-  fill: none;
-  stroke-width: 1.5px;
-}
-
-.visible {
-  display: inline;
-}
-
-.hidden {
-  display: none;
 }

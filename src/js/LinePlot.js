@@ -50,8 +50,8 @@ export default class LinePlot {
 
     this.margin = this.params.margin;
 
-    this.elemWidth = domElem.offsetWidth;
-    this.elemHeight = domElem.offsetHeight;
+    this.elemWidth = this.domElem.offsetWidth;
+    this.elemHeight = this.domElem.offsetHeight;
 
     this.figWidth = this.elemWidth - this.margin.left - this.margin.right;
     this.figHeight = this.elemHeight - this.margin.top - this.margin.bottom;
@@ -83,32 +83,40 @@ export default class LinePlot {
 
   init() {
     if (!this.isInit) {
-      // Draw the svg placeholder
-      this.plot = d3.select(this.domElem)
+      // Initialize the svg placeholder
+      this.svg = d3.select(this.domElem)
         .append('svg')
         .attr('width', this.elemWidth)
         .attr('height', this.elemHeight)
+        .classed(this.id, true);
+
+      // Draw the plot placeholder
+      this.plot = this.svg
         .append('g')
         .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
       // Draw the x-axis
-      this.xAxisGroup = this.plot
+      this.xAxisLine = this.plot
         .append('g')
         .classed(this.xAxisClass, true)
         .classed('axis', true)
         .attr('transform', `translate(0, ${this.figHeight})`)
-        .call(this.xAxis)
+        .call(this.xAxis);
+
+      this.xAxisLabel = this.xAxisLine
         .append('text')
         .attr('transform', `translate(${this.figWidth}, -5)`)
         .attr('style', 'text-anchor: end')
         .text(this.xLabel);
 
       // Draw the y-axis
-      this.yAxisGroup = this.plot
+      this.yAxisLine = this.plot
         .append('g')
         .classed(this.yAxisClass, true)
         .classed('axis', true)
-        .call(this.yAxis)
+        .call(this.yAxis);
+
+      this.yAxisLabel = this.yAxisLine
         .append('text')
         .attr('transform', 'translate(15, 0) rotate(-90)')
         .attr('style', 'text-anchor: end')
@@ -129,8 +137,11 @@ export default class LinePlot {
       this.markerLine = this.plot
         .append('line')
         .attr('y1', 0)
-        .attr('y2', this.elemHeight - this.margin.bottom - this.margin.top)
+        .attr('y2', this.figHeight)
         .classed('marker marker-bar', true);
+
+      // Automatically redraw when the window is resized
+      d3.select(window).on(`resize.${this.id}`, this.refresh.bind(this));
 
       this.isInit = true;
     }
@@ -192,9 +203,59 @@ export default class LinePlot {
     });
   }
 
+  refresh() {
+    if (this.isInit) {
+      // Re-acquire the element dimensions
+      this.elemWidth = this.domElem.offsetWidth;
+      this.elemHeight = this.domElem.offsetHeight;
+
+      // Re-calculate the figure dimensions
+      this.figWidth = this.elemWidth - this.margin.left - this.margin.right;
+      this.figHeight = this.elemHeight - this.margin.top - this.margin.bottom;
+
+      // Re-calibrate the scales
+      this.xScale.range([0, this.figWidth]);
+      this.yScale.range([this.figHeight, 0]);
+
+      // Re-calibrate the axes
+      this.xAxis.scale(this.xScale);
+      this.yAxis.scale(this.yScale);
+
+      // Redraw the axis lines
+      this.yAxisLine.call(this.yAxis);
+      this.xAxisLine
+        .call(this.xAxis)
+        .attr('transform', `translate(0, ${this.figHeight})`);
+
+      // Redraw the SVG container
+      this.svg
+        .attr('width', this.elemWidth)
+        .attr('height', this.elemHeight);
+
+      // Redraw the mouse detection overlay
+      this.overlay
+        .attr('width', this.elemWidth)
+        .attr('height', this.elemHeight);
+
+      // Redraw the vertical marker line
+      this.markerLine.attr('y2', this.figHeight);
+
+      // Redraw the lines
+      Object.keys(this.lines).forEach((key) => {
+        this.plot
+          .select(`.${this.lines[key].id}`)
+          .attr('d', this.lines[key].func({
+            x: this.xScale,
+            y: this.yScale,
+          }));
+      });
+    }
+  }
+
   draw(line) {
     this.isInit || this.init();
 
+    // Store the line information
     this.lines[line.id] = line;
 
     // Update the axes without animation
@@ -210,6 +271,7 @@ export default class LinePlot {
         y: this.yScale,
       }));
 
+    // Draw the line marker
     this.lines[line.id].marker = this.plot
       .append('circle')
       .attr('r', 4.5)
@@ -218,11 +280,14 @@ export default class LinePlot {
   }
 
   update(line) {
+    // Update the corresponding line information
+    // TODO: Check if the line id actually exists
     this.lines[line.id] = line;
 
     // Update the axes
     this.setAxisDomains(line);
 
+    // Update the line itself
     this.plot
       .select(`.${line.id}`)
       .transition()
@@ -232,6 +297,7 @@ export default class LinePlot {
         y: this.yScale,
       }));
 
+    // Update the line marker
     this.lines[line.id].marker = this.plot
       .append('circle')
       .attr('r', 4.5)

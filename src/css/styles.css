@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   flex-direction: row;
@@ -21,12 +25,15 @@ main {
   align-items: center;
 }
 
-section {
+.graph {
   display: flex;
   flex-direction: column;
 
-  width: calc(100vw/2);
+  width: 100%;
+  min-width: calc(100vw * 1/4);
+  max-width: calc(100vw * 3/4);
   height: 100vh;
+  margin: 0 1vw;
 
   justify-content: space-around;
   align-items: center;
@@ -63,6 +70,30 @@ select {
   margin: 0 2rem;
 }
 
+.leftMost,
+.rightMost {
+  margin: 0 1vw;
+}
+
+.addGraph {
+  width: 2vw;
+  height: 2vw;
+  padding: 0;
+  padding-bottom: 0.3vw;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+
+  border: 2px solid #444;
+  border-radius: 100%;
+  background: none;
+
+  font-size: 2rem;
+  line-height: 0;
+  outline: none;
+}
+
 .plot {
   width: inherit;
   height: 30vh;
@@ -79,6 +110,7 @@ select {
 .marker {
   fill: none;
   stroke-width: 1.5px;
+  stroke: #444;
 }
 
 .marker {
@@ -90,15 +122,15 @@ select {
   stroke-dasharray: 5, 5;
 }
 
-.lCone {
+[class^='lCone'] {
   stroke: #f00;
 }
 
-.mCone {
+[class^='mCone'] {
   stroke: #0f0;
 }
 
-.sCone {
+[class^='sCone'] {
   stroke: #00f;
 }
 
@@ -107,8 +139,9 @@ select {
 }
 
 .overlay {
-  fill: none;
   pointer-events: all;
+
+  fill: none;
 }
 
 text {

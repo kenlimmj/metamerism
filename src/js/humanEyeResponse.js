@@ -18,7 +18,7 @@ const PLOT_PARAMS = {
 
 const LINE_PARAMS = {
   l: {
-    id: 'lCone',
+    id: _.uniqueId('lCone'),
 
     x(data) {
       return data.wavelength;
@@ -29,7 +29,7 @@ const LINE_PARAMS = {
     },
   },
   m: {
-    id: 'mCone',
+    id: _.uniqueId('mCone'),
 
     x(data) {
       return data.wavelength;
@@ -40,7 +40,7 @@ const LINE_PARAMS = {
     },
   },
   s: {
-    id: 'sCone',
+    id: _.uniqueId('sCone'),
 
     x(data) {
       return data.wavelength;

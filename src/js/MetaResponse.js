@@ -27,7 +27,7 @@ const PLOT_PARAMS = {
 
 const LINE_PARAMS = {
   l: {
-    id: 'lCone',
+    id: _.uniqueId('lCone'),
 
     x(data) {
       return data.wavelength;
@@ -38,7 +38,7 @@ const LINE_PARAMS = {
     },
   },
   m: {
-    id: 'mCone',
+    id: _.uniqueId('mCone'),
 
     x(data) {
       return data.wavelength;
@@ -49,7 +49,7 @@ const LINE_PARAMS = {
     },
   },
   s: {
-    id: 'sCone',
+    id: _.uniqueId('sCone'),
 
     x(data) {
       return data.wavelength;
@@ -73,9 +73,9 @@ function multiply(a, b) {
 }
 
 export default class MetaResponse {
-  constructor(parentElem = document.body) {
+  constructor(parentElem = document.body, selectorElem) {
     this.parentElem = parentElem;
-    this.selectorElem = document.querySelector('.lightPowerDist.selector');
+    this.selectorElem = selectorElem;
 
     // Bind dropdown selection behavior
     this.selectorElem.addEventListener('change', (e) => {
