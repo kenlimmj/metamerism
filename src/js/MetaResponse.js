@@ -1,14 +1,17 @@
-import * as _ from 'lodash';
-import * as lpdData from 'json!../data/lpd.json';
-import * as herData from 'json!../data/her.json';
+import lpdData from 'json!../data/lpd.json';
+import herData from 'json!../data/her.json';
+
 import Line from './Line';
 import LinePlot from './LinePlot';
 
-const LPD_DATA = _.sortBy(lpdData.default, (item) => {
+import sortBy from 'lodash.sortby';
+import uniqueId from 'lodash.uniqueid';
+
+const LPD_DATA = sortBy(lpdData, (item) => {
   return item.id;
 });
 
-const HER_DATA = herData.default;
+const HER_DATA = herData;
 
 const DATA = multiply(HER_DATA, LPD_DATA[0].data);
 
@@ -27,7 +30,7 @@ const PLOT_PARAMS = {
 
 const LINE_PARAMS = {
   l: {
-    id: _.uniqueId('lCone'),
+    id: uniqueId('lCone'),
 
     x(data) {
       return data.wavelength;
@@ -38,7 +41,7 @@ const LINE_PARAMS = {
     },
   },
   m: {
-    id: _.uniqueId('mCone'),
+    id: uniqueId('mCone'),
 
     x(data) {
       return data.wavelength;
@@ -49,7 +52,7 @@ const LINE_PARAMS = {
     },
   },
   s: {
-    id: _.uniqueId('sCone'),
+    id: uniqueId('sCone'),
 
     x(data) {
       return data.wavelength;
@@ -96,6 +99,10 @@ export default class MetaResponse {
     this.plotElem = document.createElement('figure');
     this.plotElem.classList.add('metaResponse', 'plot');
     this.parentElem.appendChild(this.plotElem);
+
+    this.plotTitle = document.createElement('figcaption');
+    this.plotTitle.textContent = 'Result';
+    this.plotElem.appendChild(this.plotTitle);
 
     this.plot = new LinePlot(this.plotElem, PLOT_PARAMS);
     this.line = [

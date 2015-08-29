@@ -5,7 +5,12 @@
   "description": "",
   "main": "./dist/index.html",
   "dependencies": {
-    "fastclick": "^1.0.6"
+    "fastclick": "^1.0.6",
+    "lodash.clonedeep": "^3.0.2",
+    "lodash.find": "^3.2.1",
+    "lodash.merge": "^3.3.2",
+    "lodash.sortby": "^3.1.5",
+    "lodash.throttle": "^3.0.4"
   },
   "devDependencies": {
     "babel-core": "^5.8.22",
@@ -27,7 +32,7 @@
     "type": "git",
     "url": "git+https://github.com/kenlimmj/metamerism-demo.git"
   },
-  "author": "Lim Mingje, Kenneth <me@kenlimmj.com> (https://kenlimmj.com)",
+  "author": "Lim Mingje, Kenneth <kenlimmj@gmail.com> (https://kenlimmj.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kenlimmj/metamerism-demo/issues"

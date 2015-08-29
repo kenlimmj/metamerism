@@ -1,5 +1,21 @@
-* {
+*,
+* > * {
   box-sizing: border-box;
+
+  font-family: Lato;
+  font-weight: 300;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: subpixel-antialiased;
+    -moz-font-smoothing: subpixel-antialiased;
+  font-smoothing: subpixel-antialiased;
+
+  -moz-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
+  -moz-font-feature-settings:"lnum=1, frac=1, zero=1, nalt=1, kern=1, liga=1, dlig=1, hlig=1, clig=1";
+  -ms-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
+  -o-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
+  -webkit-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
+  font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
 }
 
 body {
@@ -50,9 +66,26 @@ figure {
 }
 
 figcaption {
-  position: absolute;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
 
-  width: inherit;
+  font-weight: 400;
+
+  align-self: flex-end;
+}
+
+select {
+  width: 100%;
+}
+
+.operator {
+  margin: 0 2rem;
+
+  font-size: 2rem;
+  line-height: 1;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -62,17 +95,13 @@ figcaption {
   pointer-events: none;
 }
 
-select {
-  width: 100%;
-}
-
-.operator {
-  margin: 0 2rem;
-}
-
 .leftMost,
 .rightMost {
   margin: 0 1vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .addGraph {
@@ -81,7 +110,7 @@ select {
   width: 2vw;
   height: 2vw;
   padding: 0;
-  padding-bottom: 0.3vw;
+  padding-bottom: 0.2vw;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -89,20 +118,27 @@ select {
   user-select: none;
   text-align: center;
 
-  border: 2px solid #444;
+  border: 1px solid #444;
   border-radius: 100%;
   outline: none;
   background: none;
 
+  font-family: Lato;
   font-size: 2rem;
+  font-weight: 300;
   line-height: 0;
 
   justify-content: center;
 }
 
 .addGraph[disabled] {
-  color: #888;
-  border-color: #888;
+  color: #AAAAAA;
+  border-color: #AAAAAA;
+}
+
+.helperText {
+  margin-top: 1vh;
+  text-align: center;
 }
 
 .plot {
@@ -120,7 +156,7 @@ select {
 .line,
 .marker {
   fill: none;
-  stroke-width: 1.5px;
+  stroke-width: 1.618px;
   stroke: #444;
 }
 
@@ -129,20 +165,20 @@ select {
 }
 
 .marker-bar {
-  stroke: #888;
+  stroke: #333;
   stroke-dasharray: 5, 5;
 }
 
 [class^='lCone'] {
-  stroke: #f00;
+  stroke: #FF4136;
 }
 
 [class^='mCone'] {
-  stroke: #0f0;
+  stroke: #2ECC40;
 }
 
 [class^='sCone'] {
-  stroke: #00f;
+  stroke: #0074D9;
 }
 
 .ri {
@@ -161,4 +197,8 @@ text {
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
+}
+
+.hidden {
+  display: none;
 }

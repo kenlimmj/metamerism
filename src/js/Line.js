@@ -1,5 +1,8 @@
+import uniqueId from 'lodash.uniqueid';
+import find from 'lodash.find';
+
 const DEFAULT_PARAMS = {
-  id: _.uniqueId('line_'),
+  id: uniqueId('line_'),
   x(data) {
     return data.x;
   },
@@ -31,7 +34,7 @@ export default class Line {
     let xPos = d3.mouse(overlay)[0];
 
     let xVal = xScale.invert(xPos);
-    let yVal = _.find(this.data, (item) => {
+    let yVal = find(this.data, (item) => {
       return this.params.x(item) === d3.round(xVal, 0);
     });
 

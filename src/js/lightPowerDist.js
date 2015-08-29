@@ -1,9 +1,12 @@
-import * as _ from 'lodash';
-import * as data from 'json!../data/lpd.json';
 import Line from './Line';
 import LinePlot from './LinePlot';
 
-const DATA = _.sortBy(data.default, (item) => {
+import data from 'json!../data/lpd.json';
+
+import sortBy from 'lodash.sortby';
+import uniqueId from 'lodash.uniqueid';
+
+const DATA = sortBy(data, (item) => {
   return item.id;
 });
 
@@ -21,7 +24,7 @@ const PLOT_PARAMS = {
 };
 
 const LINE_PARAMS = {
-  id: _.uniqueId('ri'),
+  id: uniqueId('ri'),
 
   x(data) {
     return data.wavelength;
@@ -61,6 +64,10 @@ export default class LightPowerDist {
       this.line = new Line(DATA[e.target.value].data, LINE_PARAMS);
       this.plot.update(this.line);
     });
+
+    this.plotTitle = document.createElement('figcaption');
+    this.plotTitle.textContent = 'Illuminant Spectral Distribution';
+    this.plotElem.appendChild(this.plotTitle);
 
     // Inject the plot into the parent DOM element
     this.plotElem.classList.add('lightPowerDist', 'plot');

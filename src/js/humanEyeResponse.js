@@ -1,8 +1,11 @@
-import * as data from 'json!../data/her.json';
+import data from 'json!../data/her.json';
+
 import Line from './Line';
 import LinePlot from './LinePlot';
 
-const DATA = data.default;
+import uniqueId from 'lodash.uniqueid';
+
+const DATA = data;
 const PLOT_PARAMS = {
   xAxisLabel: 'Wavelength (nm)',
   xAxisClamp: {
@@ -18,7 +21,7 @@ const PLOT_PARAMS = {
 
 const LINE_PARAMS = {
   l: {
-    id: _.uniqueId('lCone'),
+    id: uniqueId('lCone'),
 
     x(data) {
       return data.wavelength;
@@ -29,7 +32,7 @@ const LINE_PARAMS = {
     },
   },
   m: {
-    id: _.uniqueId('mCone'),
+    id: uniqueId('mCone'),
 
     x(data) {
       return data.wavelength;
@@ -40,7 +43,7 @@ const LINE_PARAMS = {
     },
   },
   s: {
-    id: _.uniqueId('sCone'),
+    id: uniqueId('sCone'),
 
     x(data) {
       return data.wavelength;
@@ -56,6 +59,10 @@ export default class HumanEyeResponse {
   constructor(parentElem = document.body) {
     this.parentElem = parentElem;
     this.plotElem = document.createElement('figure');
+
+    this.plotTitle = document.createElement('figcaption');
+    this.plotTitle.textContent = 'Human Eye Response';
+    this.plotElem.appendChild(this.plotTitle);
 
     // Inject the plot into the parent DOM element
     this.plotElem.classList.add('humanEyeResponse', 'plot');
