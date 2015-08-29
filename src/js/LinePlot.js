@@ -221,6 +221,8 @@ export default class LinePlot {
       this.xAxis.scale(this.xScale);
       this.yAxis.scale(this.yScale);
 
+      this.xAxisLabel.attr('transform', `translate(${this.figWidth}, -5)`);
+
       // Redraw the axis lines
       this.yAxisLine.call(this.yAxis);
       this.xAxisLine

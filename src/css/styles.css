@@ -76,22 +76,33 @@ select {
 }
 
 .addGraph {
+  display: flex;
+
   width: 2vw;
   height: 2vw;
   padding: 0;
   padding-bottom: 0.3vw;
-  text-align: center;
 
-  display: flex;
-  justify-content: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
 
   border: 2px solid #444;
   border-radius: 100%;
+  outline: none;
   background: none;
 
   font-size: 2rem;
   line-height: 0;
-  outline: none;
+
+  justify-content: center;
+}
+
+.addGraph[disabled] {
+  color: #888;
+  border-color: #888;
 }
 
 .plot {
