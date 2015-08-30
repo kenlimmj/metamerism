@@ -1,7 +1,9 @@
 import LinePlot from './LinePlot';
+
 import LightPowerDist from './LightPowerDist';
 import HumanEyeResponse from './HumanEyeResponse';
 import MetaResponse from './MetaResponse';
+import UserPlot from './UserPlot';
 
 export default class GraphGenerator {
   constructor(parentElem = document.body, beforeElem) {
@@ -33,10 +35,11 @@ export default class GraphGenerator {
     this.graphSetElem.appendChild(this.multOperator);
     this.her = new HumanEyeResponse(this.graphSetElem);
     this.graphSetElem.appendChild(this.equalOperator);
-    this.meta = new MetaResponse(this.graphSetElem, this.lpd.selectorElem);
+    // this.meta = new MetaResponse(this.graphSetElem, this.lpd.selectorElem);
+    this.userPlot = new UserPlot(this.graphSetElem);
 
     // Group all the graphs to synchronize mouse events
-    LinePlot.group([this.lpd.plot, this.her.plot, this.meta.plot]);
+    // LinePlot.group([this.lpd.plot, this.her.plot, this.meta.plot]);
 
     return this;
   }

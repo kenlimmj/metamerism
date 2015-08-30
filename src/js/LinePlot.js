@@ -1,6 +1,7 @@
 import cloneDeep from 'lodash.clonedeep';
 import merge from 'lodash.merge';
 import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
 import uniqueId from 'lodash.uniqueid';
 
 const DEFAULT_TARGET_ELEM = document.body;
@@ -12,7 +13,7 @@ const DEFAULT_PARAMS = {
     min: -Infinity,
     max: Infinity,
   },
-  xAxisTickValues: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+  yAxisTickValues: d3.range(0, 1.1, 0.1),
   yAxisLabel: 'y',
   yAxisOrientation: 'left',
   yAxisClass: 'y',
@@ -27,7 +28,6 @@ const DEFAULT_PARAMS = {
     left: 35,
     bottom: 40,
   },
-  drawAllowed: false,
 };
 
 export default class LinePlot {
@@ -45,9 +45,6 @@ export default class LinePlot {
 
     this.lines = {};
     this.group = [];
-
-    this.userDrawData = [];
-    this.drawAllowed = params.drawAllowed;
 
     this.xLabel = this.params.xAxisLabel;
     this.yLabel = this.params.yAxisLabel;
@@ -80,15 +77,8 @@ export default class LinePlot {
     this.yAxis = d3.svg
       .axis()
       .scale(this.yScale)
-      .tickValues(this.params.xAxisTickValues)
+      .tickValues(this.params.yAxisTickValues)
       .orient(this.params.yAxisOrientation);
-
-    if (this.drawAllowed) {
-      this.userLineFunc = d3.svg.line()
-        .interpolate('basis')
-        .x((d) => { return d[0]; })
-        .y((d) => { return d[1]; });
-    }
 
     this.isInit = false;
 
@@ -132,7 +122,7 @@ export default class LinePlot {
 
       this.yAxisLabel = this.yAxisLine
         .append('text')
-        .attr('transform', 'translate(15, 0) rotate(-90)')
+        .attr('transform', 'translate(17.5, 0) rotate(-90)')
         .attr('style', 'text-anchor: end')
         .text(this.yLabel);
 
@@ -147,17 +137,6 @@ export default class LinePlot {
         .on('mouseout', this.mouseOut)
         .on('mousemove', throttle(this.mouseMove, 10));
 
-      if (this.drawAllowed) {
-        this.canvas = this.plot
-          .datum(this)
-          .append('rect')
-          .classed('overlay', true)
-          .attr('width', this.elemWidth)
-          .attr('height', this.elemHeight)
-          .on('mousedown', this.mouseDown)
-          .on('mouseup', this.mouseUp);
-      }
-
       // Draw the vertical marker line
       this.markerLine = this.plot
         .append('line')
@@ -165,14 +144,8 @@ export default class LinePlot {
         .attr('y2', this.figHeight)
         .classed('marker marker-bar', true);
 
-      this.userLine = this.plot
-        .append('path')
-        .data([this.userDrawData])
-        .classed('line', true)
-        .attr('d', this.userLineFunc);
-
       // Automatically redraw when the window is resized
-      d3.select(window).on(`resize.${this.id}`, this.refresh.bind(this));
+      d3.select(window).on(`resize.${this.id}`, debounce(this.refresh, 200).bind(this));
 
       this.isInit = true;
     }
@@ -232,17 +205,6 @@ export default class LinePlot {
         plot.lines[key].mouseMove(plot, _this);
       });
     });
-  }
-
-  mouseDown(scope) {
-    scope.canvas.on('mousemove', () => {
-      scope.userDrawData.push(d3.mouse(this));
-      scope.userLine.attr('d', (d) => { return scope.userLineFunc(d); });
-    });
-  }
-
-  mouseUp(scope) {
-    scope.canvas.on('mousemove', null);
   }
 
   refresh() {

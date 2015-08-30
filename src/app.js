@@ -10,7 +10,6 @@ import GraphGenerator from './js/GraphGenerator';
 
 const MAIN_ELEM = document.querySelector('main');
 
-const LEFT_BOUND = document.querySelector('.leftMost');
 const LEFT_BOUND_BUTTON = document.querySelector('.leftMost > .addGraph');
 const LEFT_HELPER_TEXT = document.querySelector('.leftMost > .helperText');
 

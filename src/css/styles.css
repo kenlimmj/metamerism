@@ -9,7 +9,6 @@
   -webkit-font-smoothing: subpixel-antialiased;
     -moz-font-smoothing: subpixel-antialiased;
   font-smoothing: subpixel-antialiased;
-
   -moz-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
   -moz-font-feature-settings:"lnum=1, frac=1, zero=1, nalt=1, kern=1, liga=1, dlig=1, hlig=1, clig=1";
   -ms-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
@@ -55,6 +54,10 @@ main {
   align-items: center;
 }
 
+figure:last-of-type {
+  margin-bottom: 2vh;
+}
+
 figure {
   display: flex;
   flex-direction: column;
@@ -79,13 +82,11 @@ figcaption {
 
 select {
   width: 100%;
+  margin-top: 2vh;
 }
 
 .operator {
   margin: 0 2rem;
-
-  font-size: 2rem;
-  line-height: 1;
 
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -93,13 +94,18 @@ select {
   user-select: none;
   text-align: right;
   pointer-events: none;
+
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .leftMost,
 .rightMost {
-  margin: 0 1vw;
   display: flex;
   flex-direction: column;
+
+  margin: 0 1vw;
+
   justify-content: center;
   align-items: center;
 }
@@ -138,6 +144,7 @@ select {
 
 .helperText {
   margin-top: 1vh;
+
   text-align: center;
 }
 
@@ -154,7 +161,8 @@ select {
 }
 
 .line,
-.marker {
+.marker,
+.point {
   fill: none;
   stroke-width: 1.618px;
   stroke: #444;
@@ -185,10 +193,22 @@ select {
   stroke: #444;
 }
 
-.overlay {
+.overlay,
+.canvas {
   pointer-events: all;
 
   fill: none;
+}
+
+.point {
+  pointer-events: all;
+
+  stroke-width: 1.618px;
+  fill: transparent;
+}
+
+.selected {
+  fill: #444;
 }
 
 text {

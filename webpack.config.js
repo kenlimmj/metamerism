@@ -1,3 +1,6 @@
+var webpack = require('webpack');
+var AutoInstallPlugin = require('auto-install-webpack-plugin');
+
 module.exports = {
   context: __dirname + '/src',
   entry: ['./app.js', 'webpack/hot/dev-server'],
@@ -24,4 +27,11 @@ module.exports = {
     extensions: ['', '.js'],
     modulesDirectories: ['node_modules', 'web_modules'],
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.optimize.OccurenceOrderPlugin(true),
+    new webpack.optimize.DedupePlugin(),
+    new AutoInstallPlugin({save: true}),
+  ],
 };
