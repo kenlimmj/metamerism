@@ -18,10 +18,6 @@ export default class UserPlot {
     this.parentElem = parentElem;
     this.plotElem = document.createElement('figure');
 
-    this.plotTitle = document.createElement('figcaption');
-    this.plotTitle.textContent = 'Draw The Result';
-    this.plotElem.appendChild(this.plotTitle);
-
     // Inject the plot into the parent DOM element
     this.plotElem.classList.add('userDrawing', 'plot');
     this.parentElem.appendChild(this.plotElem);
@@ -30,5 +26,13 @@ export default class UserPlot {
     this.plot.init();
 
     return this;
+  }
+
+  hide() {
+    this.plotElem.style.display = 'none';
+  }
+
+  show() {
+    this.plotElem.style.display = null;
   }
 }

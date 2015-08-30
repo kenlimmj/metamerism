@@ -41,6 +41,7 @@ RIGHT_BOUND_BUTTON.addEventListener('click', (e) => {
     item.lpd.plot.refresh();
     item.her.plot.refresh();
     item.meta.plot.refresh();
+    item.userPlot.plot.refresh();
   });
 });
 
@@ -65,5 +66,6 @@ LEFT_BOUND_BUTTON.addEventListener('click', (e) => {
     item.lpd.plot.refresh();
     item.her.plot.refresh();
     item.meta.plot.refresh();
+    item.userPlot.plot.refresh();
   });
 });

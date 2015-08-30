@@ -149,6 +149,9 @@ export default class SplinePlot {
 
       this.svg.node().focus();
 
+      // Automatically redraw when the window is resized
+      d3.select(window).on(`resize.${this.id}`, debounce(this.refresh, 200).bind(this));
+
       this.isInit = true;
     }
   }
@@ -206,6 +209,48 @@ export default class SplinePlot {
     if (d3.event) {
       d3.event.preventDefault();
       d3.event.stopPropagation();
+    }
+  }
+
+  refresh() {
+    if (this.isInit) {
+      // Re-acquire the element dimensions
+      this.elemWidth = this.domElem.offsetWidth;
+      this.elemHeight = this.domElem.offsetHeight;
+
+      // Re-calculate the figure dimensions
+      this.figWidth = this.elemWidth - this.margin.left - this.margin.right;
+      this.figHeight = this.elemHeight - this.margin.top - this.margin.bottom;
+
+      // Re-calibrate the scales
+      this.xScale.range([0, this.figWidth]);
+      this.yScale.range([this.figHeight, 0]);
+
+      // Re-calibrate the axes
+      this.xAxis.scale(this.xScale);
+      this.yAxis.scale(this.yScale);
+
+      this.xAxisLabel.attr('transform', `translate(${this.figWidth}, -5)`);
+
+      // Redraw the axis lines
+      this.yAxisLine
+        .call(this.yAxis)
+        .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
+      this.xAxisLine
+        .call(this.xAxis)
+        .attr('transform', `translate(${this.margin.left}, ${this.figHeight + this.margin.top})`);
+
+      // Redraw the SVG container
+      this.svg
+        .attr('width', this.elemWidth)
+        .attr('height', this.elemHeight);
+
+      // Redraw the mouse detection overlay
+      this.canvas
+        .attr('width', this.elemWidth)
+        .attr('height', this.elemHeight);
+
+      this.line.call(this.redrawLine.bind(this));
     }
   }
 }

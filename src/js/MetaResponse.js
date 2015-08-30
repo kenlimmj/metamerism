@@ -100,10 +100,6 @@ export default class MetaResponse {
     this.plotElem.classList.add('metaResponse', 'plot');
     this.parentElem.appendChild(this.plotElem);
 
-    this.plotTitle = document.createElement('figcaption');
-    this.plotTitle.textContent = 'Result';
-    this.plotElem.appendChild(this.plotTitle);
-
     this.plot = new LinePlot(this.plotElem, PLOT_PARAMS);
     this.line = [
       new Line(DATA, LINE_PARAMS.l),
@@ -117,5 +113,13 @@ export default class MetaResponse {
     });
 
     return this;
+  }
+
+  hide() {
+    this.plotElem.style.display = 'none';
+  }
+
+  show() {
+    this.plotElem.style.display = null;
   }
 }
