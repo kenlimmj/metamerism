@@ -79,6 +79,16 @@ figcaption {
 select {
   width: 100%;
   margin-top: 2vh;
+  padding: 0.5rem;
+
+  border: 1px solid #444;
+  outline: none;
+  background: none;
+
+  font-size: 1rem;
+  font-weight: 400;
+
+  -webkit-appearance: none;
 }
 
 .operator {
@@ -146,7 +156,7 @@ select {
 
 .plot {
   width: inherit;
-  height: 30vh;
+  height: 25vh;
 }
 
 .axis path,
@@ -210,12 +220,13 @@ select {
 .modeToggle {
   display: flex;
   flex-direction: row;
+
+  width: inherit;
+  margin-bottom: 2vh;
+
   justify-content: space-between;
   align-items: stretch;
   align-content: stretch;
-  width: inherit;
-
-  margin-bottom: 2vh;
 }
 
 .modeButton {
