@@ -1,0 +1,291 @@
+*,
+* > * {
+  box-sizing: border-box;
+
+  font-family: Lato;
+  font-weight: 300;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: subpixel-antialiased;
+    -moz-font-smoothing: subpixel-antialiased;
+  font-smoothing: subpixel-antialiased;
+  -moz-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
+  -moz-font-feature-settings:"lnum=1, frac=1, zero=1, nalt=1, kern=1, liga=1, dlig=1, hlig=1, clig=1";
+  -ms-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
+  -o-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
+  -webkit-font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
+  font-feature-settings:"lnum" 1, "frac" 1, "zero" 1, "nalt" 1, "kern" 1, "liga" 1, "dlig" 1, "hlig" 1, "clig" 1;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+
+  justify-content: center;
+}
+
+main {
+  display: flex;
+  flex-direction: row;
+
+  width: inherit;
+  margin: 0 .5rem;
+
+  justify-content: space-around;
+  align-items: center;
+}
+
+.graph {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-width: calc(100vw * 1/4);
+  max-width: calc(100vw * 3/4);
+  height: 100vh;
+  margin: 0 1vw;
+
+  justify-content: space-around;
+  align-items: center;
+}
+
+figure {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+  padding: 0;
+
+  justify-content: center;
+}
+
+figcaption {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+
+  font-weight: 400;
+
+  align-self: flex-end;
+}
+
+select {
+  width: 100%;
+  margin-top: 2vh;
+  padding: 0.5rem;
+
+  border: 1px solid #444;
+  outline: none;
+  background: none;
+
+  font-size: 1rem;
+  font-weight: 400;
+
+  -webkit-appearance: none;
+}
+
+.operator {
+  margin: 0 2rem;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: right;
+  pointer-events: none;
+
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.leftMost,
+.rightMost {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 1vw;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.addGraph {
+  display: flex;
+
+  width: 2vw;
+  height: 2vw;
+  padding: 0;
+  padding-bottom: 0.2vw;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+
+  border: 1px solid #444;
+  border-radius: 100%;
+  outline: none;
+  background: none;
+
+  font-family: Lato;
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 0;
+
+  justify-content: center;
+}
+
+.addGraph[disabled] {
+  color: #AAA;
+  border-color: #AAA;
+}
+
+.helperText {
+  margin-top: 1vh;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-align: center;
+}
+
+.plot {
+  width: inherit;
+  height: 25vh;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #444;
+  shape-rendering: crispEdges;
+}
+
+.line,
+.marker,
+.point {
+  fill: none;
+  stroke-width: 1.618px;
+  stroke: #444;
+}
+
+.marker {
+  display: none;
+}
+
+.marker-bar {
+  stroke: #333;
+  stroke-dasharray: 5, 5;
+}
+
+[class^='lCone'] {
+  stroke: #FF4136;
+}
+
+[class^='mCone'] {
+  stroke: #2ECC40;
+}
+
+[class^='sCone'] {
+  stroke: #0074D9;
+}
+
+.ri {
+  stroke: #444;
+}
+
+.overlay,
+.canvas {
+  pointer-events: all;
+
+  fill: none;
+}
+
+.eraseButton {
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.point {
+  pointer-events: all;
+
+  stroke-width: 1.618px;
+  fill: transparent;
+}
+
+.selected {
+  fill: #444;
+}
+
+.modeToggle {
+  display: flex;
+  flex-direction: row;
+
+  width: inherit;
+  margin-bottom: 2vh;
+
+  justify-content: space-between;
+  align-items: stretch;
+  align-content: stretch;
+}
+
+.modeButton {
+  width: 100%;
+  height: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  border: 1px solid #444;
+  outline: none;
+  background: none;
+
+  font-family: Lato;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 0;
+}
+
+.modeButton:first-of-type {
+  border-right: none;
+  border-top-left-radius: 0.5vw;
+  border-bottom-left-radius: 0.5vw;
+}
+
+.modeButton:last-of-type {
+  border-top-right-radius: 0.5vw;
+  border-bottom-right-radius: 0.5vw;
+}
+
+.modeSelected {
+  cursor: default;
+  pointer-events: none;
+
+  background-color: #ccc;
+}
+
+text {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hidden {
+  display: none;
+}
