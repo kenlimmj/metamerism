@@ -33,7 +33,7 @@ export default class GraphGenerator {
 
       this.answerButton.classList.add('modeSelected');
       this.drawButton.classList.remove('modeSelected');
-      
+
       this.userPlot.hide();
       this.meta.show();
       this.meta.plot.refresh();

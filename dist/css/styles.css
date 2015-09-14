@@ -79,6 +79,16 @@ figcaption {
 select {
   width: 100%;
   margin-top: 2vh;
+  padding: 0.5rem;
+
+  border: 1px solid #444;
+  outline: none;
+  background: none;
+
+  font-size: 1rem;
+  font-weight: 400;
+
+  -webkit-appearance: none;
 }
 
 .operator {
@@ -134,19 +144,23 @@ select {
 }
 
 .addGraph[disabled] {
-  color: #AAAAAA;
-  border-color: #AAAAAA;
+  color: #AAA;
+  border-color: #AAA;
 }
 
 .helperText {
   margin-top: 1vh;
 
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   text-align: center;
 }
 
 .plot {
   width: inherit;
-  height: 30vh;
+  height: 25vh;
 }
 
 .axis path,
@@ -196,6 +210,11 @@ select {
   fill: none;
 }
 
+.eraseButton {
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
 .point {
   pointer-events: all;
 
@@ -210,12 +229,13 @@ select {
 .modeToggle {
   display: flex;
   flex-direction: row;
+
+  width: inherit;
+  margin-bottom: 2vh;
+
   justify-content: space-between;
   align-items: stretch;
   align-content: stretch;
-  width: inherit;
-
-  margin-bottom: 2vh;
 }
 
 .modeButton {
@@ -223,6 +243,12 @@ select {
   height: 1rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
+
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 
   border: 1px solid #444;
   outline: none;
@@ -246,6 +272,9 @@ select {
 }
 
 .modeSelected {
+  cursor: default;
+  pointer-events: none;
+
   background-color: #ccc;
 }
 

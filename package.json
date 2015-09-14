@@ -5,7 +5,7 @@
   "description": "",
   "main": "./dist/index.html",
   "dependencies": {
-    "babel-runtime": "^5.8.20",
+    "babel-runtime": "^5.8.24",
     "fastclick": "^1.0.6",
     "lodash.clonedeep": "^3.0.2",
     "lodash.debounce": "^3.1.1",
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --progress --colors --inline --hot --devtool eval",
-    "build": "webpack --progress --colors"
+    "build": "webpack -p --progress --colors"
   },
   "repository": {
     "type": "git",

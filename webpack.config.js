@@ -3,7 +3,7 @@ var AutoInstallPlugin = require('auto-install-webpack-plugin');
 
 module.exports = {
   context: __dirname + '/src',
-  entry: ['./app.js', 'webpack/hot/dev-server'],
+  entry: './app.js',
   output: {
     filename: '/js/app.js',
     path: __dirname + '/dist',

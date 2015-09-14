@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash.clonedeep';
+import debounce from 'lodash.debounce';
 import merge from 'lodash.merge';
 import throttle from 'lodash.throttle';
-import debounce from 'lodash.debounce';
 import uniqueId from 'lodash.uniqueid';
 
 const DEFAULT_TARGET_ELEM = document.body;
@@ -26,7 +26,7 @@ const DEFAULT_PARAMS = {
     top: 10,
     right: 0,
     left: 35,
-    bottom: 40,
+    bottom: 45,
   },
 };
 
@@ -133,9 +133,12 @@ export default class LinePlot {
         .classed('overlay', true)
         .attr('width', this.elemWidth)
         .attr('height', this.elemHeight)
-        .on('mouseover', this.mouseOver)
-        .on('mouseout', this.mouseOut)
-        .on('mousemove', throttle(this.mouseMove, 10));
+        .on('mouseover', this.cursorOver)
+        .on('touchstart', this.cursorOver)
+        .on('mouseout', this.cursorOut)
+        .on('touchend', this.cursorOut)
+        .on('mousemove', throttle(this.cursorMove, 10))
+        .on('touchmove', this.cursorMove);
 
       // Draw the vertical marker line
       this.markerLine = this.plot
@@ -151,7 +154,7 @@ export default class LinePlot {
     }
   }
 
-  mouseOver(scope) {
+  cursorOver(scope) {
     scope.markerLine.style('display', 'inline');
 
     Object.keys(scope.lines).forEach((key) => {
@@ -167,7 +170,7 @@ export default class LinePlot {
     });
   }
 
-  mouseOut(scope) {
+  cursorOut(scope) {
     scope.markerLine.style('display', 'none');
 
     Object.keys(scope.lines).forEach((key) => {
@@ -183,26 +186,33 @@ export default class LinePlot {
     });
   }
 
-  mouseMove(scope) {
+  cursorMove(scope) {
     // SHAME: No better way thus far to push the event handler
     // scope into the forEach closure other than backing it up here
     let _this = this;
+    let coords = [];
+
+    if (d3.event.type === 'mousemove') {
+      coords = d3.mouse(_this);
+    } else if (d3.event.type === 'touchmove') {
+      coords = d3.touches(_this)[0];
+    }
 
     scope.markerLine
-      .attr('x1', d3.mouse(_this)[0])
-      .attr('x2', d3.mouse(_this)[0]);
+      .attr('x1', coords[0])
+      .attr('x2', coords[0]);
 
     Object.keys(scope.lines).forEach((key) => {
-      scope.lines[key].mouseMove(scope, _this);
+      scope.lines[key].cursorMove(scope, _this);
     });
 
     scope.group.forEach((plot) => {
       plot.markerLine
-        .attr('x1', d3.mouse(_this)[0])
-        .attr('x2', d3.mouse(_this)[0]);
+        .attr('x1', coords[0])
+        .attr('x2', coords[0]);
 
       Object.keys(plot.lines).forEach((key) => {
-        plot.lines[key].mouseMove(plot, _this);
+        plot.lines[key].cursorMove(plot, _this);
       });
     });
   }

@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash.clonedeep';
+import debounce from 'lodash.debounce';
 import merge from 'lodash.merge';
 import throttle from 'lodash.throttle';
-import debounce from 'lodash.debounce';
 import uniqueId from 'lodash.uniqueid';
 
 const DEFAULT_TARGET_ELEM = document.body;
@@ -43,9 +43,7 @@ export default class SplinePlot {
     }
 
     this.points = [];
-    this.selected = null;
-    this.dragged = null;
-    this.lineFunc = d3.svg.line().interpolate('cardinal');
+    this.lineFunc = d3.svg.line().interpolate('basis');
 
     this.margin = this.params.margin;
 
@@ -126,28 +124,18 @@ export default class SplinePlot {
         .attr('style', 'text-anchor: end')
         .text(this.yLabel);
 
-      // Draw the line canvas
-      this.canvas = this.plot
-        .datum(this)
-        .append('rect')
-        .classed('canvas', true)
-        .attr('width', this.elemWidth)
-        .attr('height', this.elemHeight)
-        .on('mousedown', this.mouseDown);
-
       this.svg
         .datum(this)
-        .on('mousemove', this.mouseMove)
-        .on('mouseup', this.mouseUp);
+        .on('mousedown', this.mouseDown)
+        .on('mouseup', this.mouseUp)
+        .on('touchstart', this.touchStart)
+        .on('touchend', this.touchEnd)
+        .on('contextmenu', this.clearDrawing);
 
       this.line = this.plot
         .append('path')
-        .datum(this.points)
+        .data([this.points])
         .classed('line', true);
-
-      this.line.call(this.redrawLine.bind(this));
-
-      this.svg.node().focus();
 
       // Automatically redraw when the window is resized
       d3.select(window).on(`resize.${this.id}`, debounce(this.refresh, 200).bind(this));
@@ -156,60 +144,57 @@ export default class SplinePlot {
     }
   }
 
-  mouseMove(scope) {
-    if (!scope.dragged) return;
+  clearDrawing(scope) {
+    d3.event.preventDefault();
 
-    let m = d3.mouse(scope.svg.node());
-    scope.dragged[0] = Math.max(scope.margin.left, Math.min(scope.elemWidth - scope.margin.right, m[0]));
-    scope.dragged[1] = Math.max(scope.margin.top, Math.min(scope.elemHeight - scope.margin.bottom, m[1]));
+    scope.points.length = 0;
+    scope.line.attr('d', d => { return scope.lineFunc(d); });
+  }
 
-    scope.redrawLine();
+  cursorMove(scope) {
+    let coords = [];
+
+    if (d3.event.type === 'mousemove') {
+      coords = d3.mouse(this);
+    } else if (d3.event.type === 'touchmove') {
+      coords = d3.touches(this)[0];
+    }
+
+    // Clamp the coordinates to the boundaries of
+    // the figure where they may cross the axes
+    if (coords[0] < scope.margin.left) {
+      coords[0] = scope.margin.left;
+    }
+
+    if (coords[1] > scope.elemHeight - scope.margin.bottom) {
+      coords[1] = scope.elemHeight - scope.margin.bottom;
+    }
+
+    // Push the cursor coordinates onto the stack
+    scope.points.push(coords);
+
+    // Update the line path
+    scope.line.attr('d', d => { return scope.lineFunc(d); });
+  }
+
+  touchStart(scope) {
+    // Enable cursor point tracking only when the finger is down
+    scope.svg.on('touchmove', scope.cursorMove);
   }
 
   mouseDown(scope) {
-    scope.points.push(scope.selected = scope.dragged = d3.mouse(scope.svg.node()));
-    scope.redrawLine();
+    // Enable cursor point tracking only when the mouse is down
+    scope.svg.on('mousemove', scope.cursorMove);
+  }
+
+  touchEnd(scope) {
+    // When the finger is up, delete the cursor point tracking handler
+    scope.svg.on('touchmove', null);
   }
 
   mouseUp(scope) {
-    if (!scope.dragged) return;
-
-    scope.mouseMove(scope);
-    scope.dragged = null;
-  }
-
-  redrawLine() {
-    this.line.attr('d', this.lineFunc);
-
-    let marker = this.plot
-      .selectAll('circle')
-      .data(this.points, (d) => { return d; });
-
-    marker
-      .enter()
-      .append('circle')
-      .attr('r', 1e-6)
-      .classed('point', true)
-      .on('mousedown', (d) => {
-        this.selected = this.dragged = d;
-        this.redrawLine();
-      })
-      .transition()
-      .duration(this.params.updateDuration)
-      .ease('elastic')
-      .attr('r', 4.5);
-
-    marker
-      .classed('selected', (d) => { return d === this.selected; })
-      .attr('cx', (d) => { return d[0]; })
-      .attr('cy', (d) => { return d[1]; });
-
-    marker.exit().remove();
-
-    if (d3.event) {
-      d3.event.preventDefault();
-      d3.event.stopPropagation();
-    }
+    // When the mouse is up, delete the cursor point tracking handler
+    scope.svg.on('mousemove', null);
   }
 
   refresh() {
@@ -245,12 +230,8 @@ export default class SplinePlot {
         .attr('width', this.elemWidth)
         .attr('height', this.elemHeight);
 
-      // Redraw the mouse detection overlay
-      this.canvas
-        .attr('width', this.elemWidth)
-        .attr('height', this.elemHeight);
-
-      this.line.call(this.redrawLine.bind(this));
+      // TODO: Redraw the user's line
+      this.line.attr('d', d => { return this.lineFunc(d); });
     }
   }
 }

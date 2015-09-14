@@ -30,8 +30,16 @@ export default class Line {
     return lineGenerator(this.data);
   }
 
-  mouseMove({xScale, yScale, lines}, overlay) {
-    let xPos = d3.mouse(overlay)[0];
+  cursorMove({xScale, yScale, lines}, overlay) {
+    let coords = [];
+
+    if (d3.event.type === 'mousemove') {
+      coords = d3.mouse(overlay);
+    } else if (d3.event.type === 'touchmove') {
+      coords = d3.touches(overlay)[0];
+    }
+
+    let xPos = coords[0];
 
     let xVal = xScale.invert(xPos);
     let yVal = find(this.data, (item) => {
