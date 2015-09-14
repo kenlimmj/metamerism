@@ -9,13 +9,13 @@ const DATA = data;
 const PLOT_PARAMS = {
   xAxisLabel: 'Wavelength (nm)',
   xAxisClamp: {
-    min: 390,
-    max: 730,
+    min: 393,
+    max: 714,
   },
-  yAxisLabel: 'Tristimulus Value',
+  yAxisLabel: 'Response',
   yAxisClamp: {
-    min: 0,
-    max: 1,
+    min: -0.5,
+    max: 3,
   },
 };
 
@@ -28,7 +28,7 @@ const LINE_PARAMS = {
     },
 
     y(data) {
-      return data['l-cone'];
+      return data['l-Cone'];
     },
   },
   m: {
@@ -39,7 +39,7 @@ const LINE_PARAMS = {
     },
 
     y(data) {
-      return data['m-cone'];
+      return data['m-Cone'];
     },
   },
   s: {
@@ -50,7 +50,7 @@ const LINE_PARAMS = {
     },
 
     y(data) {
-      return data['s-cone'];
+      return data['s-Cone'];
     },
   },
 };
@@ -61,7 +61,7 @@ export default class HumanEyeResponse {
     this.plotElem = document.createElement('figure');
 
     this.plotTitle = document.createElement('figcaption');
-    this.plotTitle.textContent = 'Human Eye Response';
+    this.plotTitle.textContent = 'Color Matching Functions';
     this.plotElem.appendChild(this.plotTitle);
 
     // Inject the plot into the parent DOM element

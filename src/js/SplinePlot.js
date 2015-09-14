@@ -61,11 +61,11 @@ export default class SplinePlot {
 
     this.xScale = d3.scale.linear()
       .range([0, this.figWidth])
-      .domain([390, 730])
+      .domain([this.params.xAxisClamp.min, this.params.xAxisClamp.max])
       .clamp(true);
     this.yScale = d3.scale.linear()
       .range([this.figHeight, 0])
-      .domain([0, 1])
+      .domain([this.params.yAxisClamp.min, this.params.yAxisClamp.max])
       .clamp(true);
 
     this.xAxis = d3.svg
@@ -154,9 +154,9 @@ export default class SplinePlot {
   cursorMove(scope) {
     let coords = [];
 
-    if (d3.event.type === 'mousemove') {
+    if (d3.event && d3.event.type === 'mousemove') {
       coords = d3.mouse(this);
-    } else if (d3.event.type === 'touchmove') {
+    } else if (d3.event && d3.event.type === 'touchmove') {
       coords = d3.touches(this)[0];
     }
 

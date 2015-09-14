@@ -3,13 +3,13 @@ import SplinePlot from './SplinePlot';
 const PLOT_PARAMS = {
   xAxisLabel: 'Wavelength (nm)',
   xAxisClamp: {
-    min: 390,
-    max: 730,
+    min: 393,
+    max: 714,
   },
-  yAxisLabel: 'Tristimulus Value',
+  yAxisLabel: 'Response',
   yAxisClamp: {
-    min: 0,
-    max: 1,
+    min: -0.5,
+    max: 3,
   },
 };
 

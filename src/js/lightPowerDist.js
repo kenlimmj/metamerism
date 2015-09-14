@@ -13,8 +13,8 @@ const DATA = sortBy(data, (item) => {
 const PLOT_PARAMS = {
   xAxisLabel: 'Wavelength (nm)',
   xAxisClamp: {
-    min: 390,
-    max: 730,
+    min: 393,
+    max: 714,
   },
   yAxisLabel: 'Relative Intensity',
   yAxisClamp: {

@@ -18,13 +18,13 @@ const DATA = multiply(HER_DATA, LPD_DATA[0].data);
 const PLOT_PARAMS = {
   xAxisLabel: 'Wavelength (nm)',
   xAxisClamp: {
-    min: 390,
-    max: 730,
+    min: 393,
+    max: 714,
   },
-  yAxisLabel: 'Tristimulus Value',
+  yAxisLabel: 'Response',
   yAxisClamp: {
-    min: 0,
-    max: 1,
+    min: -0.5,
+    max: 3,
   },
 };
 
@@ -37,7 +37,7 @@ const LINE_PARAMS = {
     },
 
     y(data) {
-      return data['l-cone'];
+      return data['l-Cone'];
     },
   },
   m: {
@@ -48,7 +48,7 @@ const LINE_PARAMS = {
     },
 
     y(data) {
-      return data['m-cone'];
+      return data['m-Cone'];
     },
   },
   s: {
@@ -59,7 +59,7 @@ const LINE_PARAMS = {
     },
 
     y(data) {
-      return data['s-cone'];
+      return data['s-Cone'];
     },
   },
 };
@@ -68,9 +68,9 @@ function multiply(a, b) {
   return a.map((item, idx) => {
     return {
       wavelength: item.wavelength,
-      'l-cone': item['l-cone'] * b[idx].ri,
-      'm-cone': item['m-cone'] * b[idx].ri,
-      's-cone': item['s-cone'] * b[idx].ri,
+      'l-Cone': item['l-Cone'] * b[idx].ri,
+      'm-Cone': item['m-Cone'] * b[idx].ri,
+      's-Cone': item['s-Cone'] * b[idx].ri,
     };
   });
 }

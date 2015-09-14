@@ -1,10 +1,3 @@
-/*
- * @Author: Lim Mingjie, Kenneth
- * @Date:   2015-08-08 21:09:45
- * @Last Modified by:   Lim Mingjie, Kenneth
- * @Last Modified time: 2015-08-13 11:03:28
- */
-
 'use strict';
 
 let fs = require('fs');
@@ -18,25 +11,25 @@ function isInteger(input) {
 }
 
 function parseData(input) {
-  const lowerBound = 390;
-  const upperBound = 730;
+  const lowerBound = 393;
+  const upperBound = 714;
 
   const PARSE_CONFIG = {
     header: true,
     dynamicTyping: true,
-    skipEmptyLines: true
+    skipEmptyLines: true,
   };
 
   let result = csv.parse(input, PARSE_CONFIG).data;
 
   let filteredResults = _.compact(result.map(function(item) {
     if (isInteger(item.wavelength) &&
-      item.wavelength >= 390 &&
-      item.wavelength <= 730) {
+      item.wavelength >= lowerBound &&
+      item.wavelength <= upperBound) {
       return {
         wavelength: item.wavelength,
-        ri: item[Object.keys(item)[1]]
-      }
+        ri: item[Object.keys(item)[1]],
+      };
     } else {
       return null;
     }
@@ -47,14 +40,14 @@ function parseData(input) {
   }).ri;
 
   filteredResults.forEach(function(item) {
-     item.ri /= maxY;
+    item.ri /= maxY;
   });
 
-  return filteredResults
+  return filteredResults;
 }
 
 for (let i = 2469; i <= 2656; i++) {
-  let data = fs.readFileSync(`./dist/data/raw/${i}.json`);
+  let data = fs.readFileSync(`./src/data/raw/${i}.json`);
   store.push(JSON.parse(data));
 }
 
@@ -80,8 +73,8 @@ let processedStore = store.map(function(item) {
 
   return {
     id: `${lightName}${lightPB}`,
-    data: parseData(item.spectraldata)
-  }
-})
+    data: parseData(item.spectraldata),
+  };
+});
 
-fs.writeFile('./dist/data/spd.json', `var spd = ${json(processedStore)}`);
+fs.writeFile('./src/data/lpd.json', `${json(processedStore)}`);

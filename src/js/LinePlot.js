@@ -1,7 +1,6 @@
 import cloneDeep from 'lodash.clonedeep';
 import debounce from 'lodash.debounce';
 import merge from 'lodash.merge';
-import throttle from 'lodash.throttle';
 import uniqueId from 'lodash.uniqueid';
 
 const DEFAULT_TARGET_ELEM = document.body;
@@ -13,7 +12,6 @@ const DEFAULT_PARAMS = {
     min: -Infinity,
     max: Infinity,
   },
-  yAxisTickValues: d3.range(0, 1.1, 0.1),
   yAxisLabel: 'y',
   yAxisOrientation: 'left',
   yAxisClass: 'y',
@@ -77,7 +75,6 @@ export default class LinePlot {
     this.yAxis = d3.svg
       .axis()
       .scale(this.yScale)
-      .tickValues(this.params.yAxisTickValues)
       .orient(this.params.yAxisOrientation);
 
     this.isInit = false;
@@ -137,7 +134,7 @@ export default class LinePlot {
         .on('touchstart', this.cursorOver)
         .on('mouseout', this.cursorOut)
         .on('touchend', this.cursorOut)
-        .on('mousemove', throttle(this.cursorMove, 10))
+        .on('mousemove', this.cursorMove)
         .on('touchmove', this.cursorMove);
 
       // Draw the vertical marker line
