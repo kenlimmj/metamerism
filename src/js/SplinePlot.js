@@ -24,7 +24,7 @@ const DEFAULT_PARAMS = {
     top: 10,
     right: 0,
     left: 35,
-    bottom: 40,
+    bottom: 45,
   },
   updateDuration: 500,
 };

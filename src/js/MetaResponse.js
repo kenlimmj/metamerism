@@ -93,6 +93,28 @@ export default class MetaResponse {
       this.line.forEach((item) => {
         this.plot.update(item);
       });
+
+      let redSum = updatedData.reduce((acc, curr) => {
+        return acc + curr['l-Cone'];
+      }, 0);
+
+      let greenSum = updatedData.reduce((acc, curr) => {
+        return acc + curr['m-Cone'];
+      }, 0);
+
+      let blueSum = updatedData.reduce((acc, curr) => {
+        return acc + curr['s-Cone'];
+      }, 0);
+
+      this.plot.sums
+        .transition()
+        .duration(this.plot.params.updateDuration)
+        .text(`Blue: ${blueSum.toFixed(2)}, Green: ${greenSum.toFixed(2)}, Red: ${redSum.toFixed(2)}`);
+
+      this.plot.color
+        .transition()
+        .duration(this.plot.params.updateDuration)
+        .style('fill', d3.rgb(redSum, greenSum, blueSum).toString());
     });
 
     // Inject the plot into the parent DOM element
@@ -111,6 +133,32 @@ export default class MetaResponse {
     this.line.forEach((item) => {
       this.plot.draw(item);
     });
+
+    let redSum = DATA.reduce((acc, curr) => {
+      return acc + curr['l-Cone'];
+    }, 0);
+
+    let greenSum = DATA.reduce((acc, curr) => {
+      return acc + curr['m-Cone'];
+    }, 0);
+
+    let blueSum = DATA.reduce((acc, curr) => {
+      return acc + curr['s-Cone'];
+    }, 0);
+
+    this.plot.sums = this.plot.plot
+      .append('text')
+      .attr('transform', `translate(${this.plot.figWidth}, 20)`)
+      .attr('style', 'text-anchor: end')
+      .text(`Blue: ${blueSum.toFixed(2)}, Green: ${greenSum.toFixed(2)}, Red: ${redSum.toFixed(2)}`);
+
+    this.plot.color = this.plot.plot
+      .append('rect')
+      .attr('x', this.plot.figWidth - 20)
+      .attr('y', 30)
+      .attr('width', 20)
+      .attr('height', 20)
+      .style('fill', d3.rgb(redSum, greenSum, blueSum).toString());
 
     return this;
   }
