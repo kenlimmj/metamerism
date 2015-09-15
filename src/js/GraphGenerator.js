@@ -51,6 +51,7 @@ export default class GraphGenerator {
 
       this.meta.hide();
       this.userPlot.show();
+      this.userPlot.plot.refresh();
     });
 
     this.modeSwitch = document.createElement('div');
