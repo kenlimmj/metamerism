@@ -37,6 +37,7 @@ export default class GraphGenerator {
       this.userPlot.hide();
       this.meta.show();
       this.meta.plot.refresh();
+      this.meta.redraw();
     });
 
     this.drawButton = document.createElement('button');

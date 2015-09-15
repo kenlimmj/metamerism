@@ -148,19 +148,31 @@ export default class MetaResponse {
 
     this.plot.sums = this.plot.plot
       .append('text')
-      .attr('transform', `translate(${this.plot.figWidth}, 20)`)
+      .attr('transform', `translate(${this.plot.figWidth}, 5)`)
       .attr('style', 'text-anchor: end')
       .text(`Blue: ${blueSum.toFixed(2)}, Green: ${greenSum.toFixed(2)}, Red: ${redSum.toFixed(2)}`);
 
+    const CELL_WIDTH = 40;
+
     this.plot.color = this.plot.plot
       .append('rect')
-      .attr('x', this.plot.figWidth - 20)
+      .attr('x', this.plot.figWidth - CELL_WIDTH)
       .attr('y', 30)
-      .attr('width', 20)
-      .attr('height', 20)
+      .attr('width', CELL_WIDTH)
+      .attr('height', CELL_WIDTH)
       .style('fill', d3.rgb(redSum, greenSum, blueSum).toString());
 
+    d3.select(window).on(`resize.${this.id + '_info'}`, this.redraw());
+
     return this;
+  }
+
+  redraw() {
+    this.plot.sums
+      .attr('transform', `translate(${this.plot.figWidth}, 20)`);
+
+    this.plot.color
+      .attr('x', this.plot.figWidth - 40);
   }
 
   hide() {
